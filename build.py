@@ -50,4 +50,18 @@ for name in ('index.html', 'verwaltung.html'):
     seite = (hier / 'src' / name).read_text()
     seite = seite.replace('{{LOGO}}', logo).replace('{{SPONSOREN}}', '\n        '.join(eintraege))
     (hier / name).write_text(seite)
+
+# Impressum und Datenschutz: Texte 1:1 von rotaryclub-kulmbach.de, Kopf und Fuß von der Startseite
+import re
+start = (hier / 'index.html').read_text()
+kopf = re.search(r'<header class="kopf".*?</header>', start, re.S).group(0)
+kopf = kopf.replace('<a class="marke" href="#start"', '<a class="marke" href="index.html"')
+kopf = re.sub(r'<a href="#', '<a href="index.html#', kopf)
+fuss = re.search(r'<footer class="fuss">.*?</footer>', start, re.S).group(0)
+vorlage = (hier / 'src' / 'rechtlich.html').read_text()
+for name, titel in (('impressum', 'Impressum'), ('datenschutz', 'Datenschutz')):
+    inhalt = (hier / 'src' / 'rechtliches' / f'{name}.part').read_text()
+    seite = (vorlage.replace('{{LOGO}}', logo).replace('{{KOPF}}', kopf).replace('{{FUSS}}', fuss)
+             .replace('{{TITEL}}', titel).replace('{{INHALT}}', inhalt))
+    (hier / f'{name}.html').write_text(seite)
 print(len(sponsoren), 'Sponsoren,', len(eindeutig), 'nach Entfernen von Doppelungen')

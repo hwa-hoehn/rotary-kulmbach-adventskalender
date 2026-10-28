@@ -249,6 +249,50 @@ ul, ol { padding: 0; list-style: none; }
 
 .gewinn__hinweis { margin-top: 24px; font-size: 14px; color: var(--grau); }
 
+/* Treffer: Ergebnis und Gewinn-Animation */
+.suche__ergebnis.ist-treffer {
+  background: var(--nacht); color: rgba(255,255,255,.82);
+  padding: 16px 18px; border-radius: 14px; border-left: 3px solid var(--gold);
+}
+.suche__ergebnis.ist-treffer strong { display: block; font: 400 28px/1.1 var(--serif); color: var(--gold); margin-bottom: 4px; }
+.suche__ergebnis.ist-treffer a { color: var(--weiss); text-underline-offset: 3px; text-decoration-color: var(--gold); white-space: nowrap; }
+.suche__ergebnis.ist-neu { animation: ergebnis-ein .6s var(--kurve) both; transform-origin: top left; }
+@keyframes ergebnis-ein {
+  from { opacity: 0; transform: translateY(8px) scale(.97); }
+  to { opacity: 1; transform: none; }
+}
+.tuer.ist-gewinn { animation: tuer-heben 1.2s var(--kurve) both; z-index: 2; }
+@keyframes tuer-heben {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.06) translateY(-4px); }
+  100% { transform: scale(1); }
+}
+.tuer.ist-gewinn .ist-treffer { animation: nummer-puls 1.2s var(--kurve) .2s both; }
+@keyframes nummer-puls {
+  0%, 100% { transform: scale(1); }
+  40% { transform: scale(1.18); }
+}
+.tuer__lose li.ist-treffer { display: inline-block; }
+.funken { position: fixed; width: 0; height: 0; z-index: 30; pointer-events: none; }
+.funke {
+  position: absolute; left: 0; top: 0; width: 9px; height: 9px;
+  background: var(--gold); opacity: 0;
+  clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+}
+.funke--hell { background: #FFE2A3; width: 6px; height: 6px; }
+
+/* Impressum und Datenschutz */
+.recht { padding: clamp(48px, 7vw, 96px) 0 clamp(72px, 9vw, 120px); background: var(--weiss); }
+.recht__zurueck { display: inline-block; font-size: 15px; color: var(--grau); margin-bottom: 36px; text-underline-offset: 3px; }
+.recht__text { overflow-wrap: anywhere; }
+.recht__text h1 { font: 400 clamp(40px, 5.4vw, 64px)/1.05 var(--serif); color: var(--nacht); margin-bottom: 36px; }
+.recht__text h2 { font: 400 clamp(26px, 3vw, 34px)/1.15 var(--serif); color: var(--nacht); margin: 48px 0 16px; }
+.recht__text h3 { font: 600 18px/1.35 var(--sans); margin: 32px 0 10px; }
+.recht__text p { color: #3B4050; margin-bottom: 12px; max-width: 70ch; }
+.recht__text strong { color: var(--tinte); }
+.recht__text ul { list-style: disc; padding-left: 22px; margin-bottom: 12px; color: #3B4050; }
+.recht__text a { color: var(--royal); text-underline-offset: 3px; }
+
 /* Hotline */
 .hotline { background: var(--nacht-2); color: var(--weiss); padding: clamp(56px, 7vw, 88px) 0 0; }
 .hotline__innen { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 32px 64px; align-items: center; }
@@ -455,5 +499,6 @@ ul, ol { padding: 0; list-style: none; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition-duration: .01ms !important; transition-delay: 0s !important; }
   .tuer__fluegel { display: none; }
+  .tuer.ist-gewinn, .tuer.ist-gewinn .ist-treffer, .suche__ergebnis.ist-neu { animation: none; }
   .js .zeigen { opacity: 1; transform: none; }
 }

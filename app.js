@@ -24,23 +24,6 @@
 
   function zweistellig(n) { return (n < 10 ? '0' : '') + n; }
 
-  // Menü am Handy
-  var menueKnopf = document.querySelector('.menue-knopf');
-  var navigation = document.getElementById('navigation');
-  if (menueKnopf && navigation) {
-    menueKnopf.addEventListener('click', function () {
-      var offen = menueKnopf.getAttribute('aria-expanded') === 'true';
-      menueKnopf.setAttribute('aria-expanded', String(!offen));
-      navigation.classList.toggle('ist-offen', !offen);
-    });
-    navigation.addEventListener('click', function (e) {
-      if (e.target.closest('a')) {
-        menueKnopf.setAttribute('aria-expanded', 'false');
-        navigation.classList.remove('ist-offen');
-      }
-    });
-  }
-
   // Türchen
   var liste = document.getElementById('tuerchen');
   var status = document.getElementById('gewinn-status');
@@ -48,7 +31,8 @@
   var daten = ladeDaten();
   var heute = new Date();
   var aktuellesJahr = '2026';
-  var gewaehlt = anzahl(daten[aktuellesJahr]) ? aktuellesJahr : '2025';
+  // Immer mit dem laufenden Jahr starten; Gewinne zählen nur für dieses Jahr
+  var gewaehlt = aktuellesJahr;
   var treffer = null;
   var fluegelBeobachter = null;
 
@@ -64,7 +48,7 @@
     } else if (jahr === aktuellesJahr) {
       status.textContent = offenAnzahl + ' von 24 Türchen geöffnet. Aktualisierung der Losnummern täglich zwischen 07.30 und 10.00 Uhr.';
     } else {
-      status.textContent = 'Alle Gewinnzahlen der Verlosung ' + jahr + '.';
+      status.textContent = 'Gewinnzahlen der Verlosung ' + jahr + ' (Vorjahr). Sie gelten nicht für den Kalender ' + aktuellesJahr + '.';
     }
 
     var html = '';
@@ -77,7 +61,7 @@
           '<div class="tuer__kopf"><span class="tuer__tag">' + tag + '</span><span class="tuer__datum">' + datum + '</span></div>' +
           '<ul class="tuer__lose" aria-label="Gewinnzahlen vom ' + datum + '">' +
           lose.map(function (n) {
-            return '<li' + (treffer && treffer === n ? ' class="ist-treffer"' : '') + '>' + n + '</li>';
+            return '<li' + (treffer && jahr === aktuellesJahr && treffer === n ? ' class="ist-treffer"' : '') + '>' + n + '</li>';
           }).join('') +
           '</ul></li>';
       } else {
@@ -139,39 +123,104 @@
   suche.addEventListener('submit', function (e) {
     e.preventDefault();
     var nr = feld.value.trim();
-    ergebnis.classList.remove('ist-treffer');
+    var jd = daten[aktuellesJahr] || {};
+    ergebnis.classList.remove('ist-treffer', 'ist-neu');
+    treffer = null;
+
     if (nr.length < 4) {
-      treffer = null;
       ergebnis.textContent = 'Bitte geben Sie die Los-Nummer von der Vorderseite Ihres Kalenders ein.';
-      zeichne(gewaehlt);
+      zeichne(aktuellesJahr);
       return;
     }
-    var fund = null;
-    [aktuellesJahr, '2025'].some(function (jahr) {
-      var jd = daten[jahr] || {};
-      return Object.keys(jd).some(function (tag) {
-        if ((jd[tag] || []).indexOf(nr) > -1) { fund = { jahr: jahr, tag: Number(tag) }; return true; }
-        return false;
-      });
+    if (!anzahl(jd)) {
+      ergebnis.textContent = 'Die Gewinnzahlen 2026 erscheinen ab dem 01.12.26, täglich zwischen 07.30 und 10.00 Uhr.';
+      zeichne(aktuellesJahr);
+      return;
+    }
+
+    // Nur die Gewinnzahlen des laufenden Jahres zählen
+    var tag = null;
+    Object.keys(jd).some(function (t) {
+      if ((jd[t] || []).indexOf(nr) > -1) { tag = Number(t); return true; }
+      return false;
     });
 
-    if (fund) {
-      treffer = nr;
-      ergebnis.classList.add('ist-treffer');
-      ergebnis.innerHTML = '<strong>Gewonnen!</strong> Die Losnummer ' + nr + ' ist unter den Gewinnzahlen vom ' +
-        zweistellig(fund.tag) + '.12.' + fund.jahr.slice(2) + '. Wo Sie Ihren Preis abholen können, erfahren Sie unter der Hotline 09221 / 95730.';
-      zeichne(fund.jahr);
-      var tuer = liste.querySelector('.tuer[data-tag="' + fund.tag + '"]');
-      if (tuer) {
-        tuer.classList.add('ist-offen');
-        tuer.scrollIntoView({ behavior: bewegungAus ? 'auto' : 'smooth', block: 'center' });
-      }
-    } else {
-      treffer = null;
-      ergebnis.textContent = 'Die Losnummer ' + nr + ' ist bisher nicht unter den Gewinnzahlen. Alle Zahlen sind ohne Gewähr!';
-      zeichne(gewaehlt);
+    if (!tag) {
+      ergebnis.textContent = 'Die Losnummer ' + nr + ' ist bisher nicht unter den Gewinnzahlen 2026. Alle Zahlen sind ohne Gewähr!';
+      zeichne(aktuellesJahr);
+      return;
     }
+
+    treffer = nr;
+    ergebnis.innerHTML = '<strong>Gewonnen!</strong> Die Losnummer ' + nr + ' ist unter den Gewinnzahlen vom ' +
+      zweistellig(tag) + '.12.' + aktuellesJahr.slice(2) + '. Wo Sie Ihren Preis abholen können, erfahren Sie unter der Hotline <a href="tel:+49922195730">09221 / 95730</a>.';
+    zeichne(aktuellesJahr);
+    var tuer = liste.querySelector('.tuer[data-tag="' + tag + '"]');
+    if (!tuer) return;
+    tuer.classList.add('ist-offen');
+    // Ergebnis einblenden (Neustart der Animation auch bei erneuter Suche)
+    void ergebnis.offsetWidth;
+    ergebnis.classList.add('ist-treffer', 'ist-neu');
+    if (bewegungAus) return;
+    // Erst an der Meldung feiern, dann zum Türchen, das sich kurz hebt
+    var meldungSichtbar = ergebnis.getBoundingClientRect();
+    if (meldungSichtbar.top < 0 || meldungSichtbar.bottom > window.innerHeight) ergebnis.scrollIntoView({ block: 'center' });
+    funken(ergebnis);
+    setTimeout(function () {
+      var r = tuer.getBoundingClientRect();
+      if (r.top >= 80 && r.bottom <= window.innerHeight) { heben(tuer); return; }
+      tuer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      warteAufRuhe(function () { heben(tuer); });
+    }, 1300);
   });
+
+  // Wartet, bis das sanfte Scrollen zur Ruhe gekommen ist
+  function warteAufRuhe(fertig) {
+    var letzte = window.scrollY, ruhig = 0, erledigt = false;
+    function einmal() { if (!erledigt) { erledigt = true; fertig(); } }
+    setTimeout(einmal, 1200);
+    (function pruefe() {
+      if (erledigt) return;
+      ruhig = window.scrollY === letzte ? ruhig + 1 : 0;
+      letzte = window.scrollY;
+      if (ruhig > 6) einmal(); else requestAnimationFrame(pruefe);
+    })();
+  }
+
+  // Gewinn-Animation: goldene Funken an der Meldung, danach hebt sich das Türchen (nur transform und opacity)
+  function heben(tuer) {
+    tuer.classList.remove('ist-gewinn');
+    void tuer.offsetWidth;
+    tuer.classList.add('ist-gewinn');
+  }
+
+  function funken(ziel) {
+    var r = ziel.getBoundingClientRect();
+    var buehne = document.createElement('div');
+    buehne.className = 'funken';
+    buehne.style.left = (r.left + r.width / 2) + 'px';
+    buehne.style.top = (r.top + r.height / 2) + 'px';
+    buehne.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(buehne);
+
+    var kurve = 'cubic-bezier(.22, .61, .21, 1)';
+    var anzahlFunken = 34;
+    for (var i = 0; i < anzahlFunken; i++) {
+      var f = document.createElement('span');
+      f.className = 'funke' + (i % 3 === 0 ? ' funke--hell' : '');
+      buehne.appendChild(f);
+      var winkel = (i / anzahlFunken) * Math.PI * 2 + Math.random() * 0.4;
+      var weite = Math.min(Math.max(r.width, r.height), 260) * (0.5 + Math.random() * 0.5);
+      var x = Math.cos(winkel) * weite, y = Math.sin(winkel) * weite - 30;
+      var dreh = (Math.random() * 360) | 0;
+      f.animate([
+        { transform: 'translate(-50%, -50%) rotate(' + dreh + 'deg) scale(.2)', opacity: 0 },
+        { transform: 'translate(calc(-50% + ' + x * 0.7 + 'px), calc(-50% + ' + y * 0.7 + 'px)) rotate(' + (dreh + 90) + 'deg) scale(1)', opacity: 1, offset: 0.45 },
+        { transform: 'translate(calc(-50% + ' + x + 'px), calc(-50% + ' + (y + 40) + 'px)) rotate(' + (dreh + 180) + 'deg) scale(.6)', opacity: 0 }
+      ], { duration: 1400, delay: Math.random() * 120, easing: kurve, fill: 'forwards' });
+    }
+    setTimeout(function () { buehne.remove(); }, 1800);
+  }
 
   zeichne(gewaehlt);
 
