@@ -1,0 +1,49 @@
+/* Verwaltung (Demo) */
+.verwaltung { background: var(--papier); }
+.v-zurueck { min-height: 42px; padding: 0 20px; font-size: 15px; }
+.v-rahmen { padding-top: clamp(48px, 6vw, 80px); padding-bottom: 96px; }
+.v-einleitung { margin-top: 14px; color: var(--grau); max-width: 60ch; }
+.v-raster { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; margin-top: 44px; align-items: start; }
+
+.v-formular { background: var(--weiss); border: 1px solid var(--linie); padding: clamp(22px, 3vw, 36px); }
+.v-zeile { margin-bottom: 20px; }
+.v-zeile label { display: block; font-weight: 500; font-size: 15px; margin-bottom: 6px; }
+.v-zeile select, .v-zeile textarea {
+  width: 100%; font: 400 17px/1.5 var(--sans); color: var(--tinte);
+  border: 1px solid var(--linie); background: var(--papier); padding: 12px 14px; border-radius: 6px;
+}
+.v-zeile select:focus, .v-zeile textarea:focus { outline: 2px solid var(--nacht); outline-offset: 0; border-color: transparent; }
+.v-zeile textarea { font-variant-numeric: tabular-nums; resize: vertical; }
+.v-hilfe { margin-top: 6px; font-size: 14px; color: var(--grau); }
+.v-hilfe.ist-warnung { color: #A3261B; }
+
+.v-vorschau { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 22px; }
+.v-vorschau li {
+  font-variant-numeric: tabular-nums; font-size: 15px;
+  background: var(--papier); border: 1px solid var(--linie); padding: 3px 10px; border-radius: 999px;
+}
+.v-vorschau li.ist-ungewoehnlich { border-color: #A3261B; color: #A3261B; }
+.v-aktionen { display: flex; flex-wrap: wrap; gap: 10px; }
+.v-meldung { margin-top: 14px; min-height: 1.5em; font-size: 15px; color: var(--nacht); font-weight: 500; }
+
+.v-titel { font: 400 30px/1.1 var(--serif); color: var(--nacht); margin-bottom: 16px; }
+.v-tage { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+.v-tage button {
+  width: 100%; text-align: left; cursor: pointer;
+  background: transparent; border: 1px solid var(--linie); padding: 10px 12px;
+  font: 400 15px/1.3 var(--sans); color: var(--grau);
+  transition: transform .3s var(--kurve);
+}
+.v-tage button:hover { transform: translateY(-2px); }
+.v-tage b { display: block; font: 400 26px/1 var(--serif); color: var(--nacht); margin-bottom: 4px; }
+.v-tage .ist-voll { background: var(--weiss); }
+.v-tage .ist-voll span { color: var(--gold-dunkel); font-weight: 500; }
+.v-tage .ist-gewaehlt { border-color: var(--nacht); box-shadow: inset 0 0 0 1px var(--nacht); }
+
+@media (max-width: 860px) {
+  .v-raster { grid-template-columns: 1fr; }
+}
+@media (max-width: 420px) {
+  .v-tage { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .v-zurueck { padding: 0 14px; }
+}

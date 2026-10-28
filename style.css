@@ -1,0 +1,451 @@
+/* Rotary Adventskalender Kulmbach · Gestaltungsvorschlag HWA */
+
+@font-face {
+  font-family: "Caslon";
+  src: url("fonts/libre-caslon-display.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Albert";
+  src: url("fonts/albert-sans.woff2") format("woff2");
+  font-weight: 300 700;
+  font-display: swap;
+}
+
+:root {
+  --nacht: #0B1730;
+  --nacht-2: #122347;
+  --royal: #17458F;
+  --gold: #F7A81B;
+  --gold-dunkel: #9A6A0E;
+  --papier: #F6F2EA;
+  --weiss: #FFFFFF;
+  --tinte: #131826;
+  --grau: #5A5F6E;
+  --linie: #DDD6C8;
+  --linie-hell: rgba(247, 168, 27, .28);
+  --serif: "Caslon", "Times New Roman", serif;
+  --sans: "Albert", "Helvetica Neue", Arial, sans-serif;
+  --kurve: cubic-bezier(.22, .61, .21, 1);
+  --breite: 1240px;
+  --rand: clamp(20px, 5vw, 56px);
+  --logo-wort: #17458F;
+  --logo-rad: #F7A81B;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 88px; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font: 400 17px/1.6 var(--sans);
+  color: var(--tinte);
+  background: var(--papier);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; }
+h1, h2, h3, p, ul, ol, dl, dd, figure { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+.rahmen { width: 100%; max-width: var(--breite); margin: 0 auto; padding: 0 var(--rand); }
+.rahmen--schmal { max-width: 860px; }
+
+.titel {
+  font: 400 clamp(38px, 5.4vw, 68px)/1.04 var(--serif);
+  letter-spacing: -.01em;
+  color: var(--nacht);
+}
+.vorzeile {
+  font-weight: 500;
+  font-size: 15px;
+  color: var(--gold-dunkel);
+  margin-bottom: 14px;
+}
+.vorzeile--hell { color: var(--gold); }
+
+/* Knöpfe */
+.knopf {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 50px; padding: 0 26px;
+  font: 500 16px/1.2 var(--sans);
+  text-decoration: none; text-align: center;
+  border: 1px solid transparent; border-radius: 999px;
+  cursor: pointer;
+  transition: transform .3s var(--kurve), opacity .3s var(--kurve);
+}
+.knopf:hover { transform: translateY(-2px); }
+.knopf:active { transform: translateY(0); opacity: .85; }
+.knopf--gold { background: var(--gold); color: var(--nacht); }
+.knopf--linie { border-color: rgba(255,255,255,.4); color: var(--weiss); }
+.knopf--linie-dunkel { border-color: var(--nacht); color: var(--nacht); }
+.knopf--nacht { background: var(--nacht); color: var(--weiss); }
+
+/* Hinweis Entwurf */
+.entwurf {
+  background: #050C1C; color: rgba(255,255,255,.6);
+  font-size: 13px; text-align: center; padding: 7px 16px;
+}
+
+/* Kopf */
+.kopf {
+  position: sticky; top: 0; z-index: 20;
+  background: rgba(11, 23, 48, .94);
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  --logo-wort: #FFFFFF;
+}
+.kopf__innen {
+  max-width: var(--breite); margin: 0 auto; padding: 0 var(--rand);
+  height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 24px;
+}
+.marke { display: grid; grid-template-columns: auto; text-decoration: none; color: var(--weiss); }
+.marke__logo { width: 140px; height: auto; aspect-ratio: 392.26 / 147.83; }
+.marke__club { font-size: 14px; line-height: 1; margin-top: -1px; letter-spacing: .01em; color: rgba(255,255,255,.82); }
+
+.navigation { display: flex; align-items: center; gap: clamp(14px, 1.8vw, 28px); }
+.navigation a {
+  color: rgba(255,255,255,.82); text-decoration: none; font-size: 15px; font-weight: 500;
+  position: relative; padding: 6px 0;
+}
+.navigation a::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--gold);
+  transform: scaleX(0); transform-origin: left; transition: transform .3s var(--kurve);
+}
+.navigation a:hover { color: var(--weiss); }
+.navigation a:hover::after { transform: scaleX(1); }
+.navigation .navigation__hotline {
+  color: var(--nacht); background: var(--gold); padding: 9px 16px; border-radius: 999px;
+}
+.navigation .navigation__hotline::after { display: none; }
+
+.menue-knopf { display: none; }
+
+/* Bühne */
+.buehne {
+  background: var(--nacht);
+  color: var(--weiss);
+  position: relative; overflow: hidden;
+  --logo-wort: #FFFFFF;
+}
+.buehne::before {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(60% 70% at 78% 45%, rgba(23, 69, 143, .55), transparent 70%);
+  pointer-events: none;
+}
+.buehne__innen {
+  position: relative;
+  max-width: var(--breite); margin: 0 auto; padding: clamp(48px, 6vw, 84px) var(--rand) clamp(44px, 5vw, 72px);
+  display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(32px, 5vw, 80px); align-items: center;
+}
+.buehne__titel { font: 400 clamp(50px, 7.6vw, 108px)/.94 var(--serif); letter-spacing: -.02em; }
+.buehne__zeile { display: block; }
+.buehne__zeile--klein { font-size: .42em; letter-spacing: 0; margin-bottom: .28em; color: rgba(255,255,255,.8); }
+.buehne__jahr { color: var(--gold); }
+.buehne__lead {
+  font: 400 clamp(22px, 2.2vw, 28px)/1.3 var(--serif);
+  margin-top: 28px; max-width: 26ch;
+}
+.buehne__absatz { margin-top: 14px; max-width: 44ch; color: rgba(255,255,255,.74); }
+.buehne__aktionen { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+
+.buehne__kalender { position: relative; }
+.buehne__kalender::before {
+  content: ""; position: absolute; inset: -14px 14px 14px -14px;
+  border: 1px solid var(--linie-hell); pointer-events: none;
+}
+.buehne__kalender img {
+  position: relative; width: 100%;
+  box-shadow: 0 40px 80px -30px rgba(0,0,0,.7), 0 12px 24px -12px rgba(0,0,0,.5);
+}
+.buehne__fuss {
+  position: relative;
+  max-width: var(--breite); margin: 0 auto; padding: 22px var(--rand) 26px;
+  border-top: 1px solid rgba(255,255,255,.1);
+  font-size: 15px; color: rgba(255,255,255,.66);
+}
+.buehne__fuss span { margin: 0 .5em; color: var(--gold); }
+
+/* Gewinnzahlen */
+.gewinn { padding: clamp(72px, 9vw, 128px) 0 clamp(64px, 8vw, 104px); }
+.gewinn__kopf {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 420px); gap: 32px 64px; align-items: end;
+}
+.gewinn__unter { margin-top: 12px; color: var(--grau); font-size: 18px; }
+
+.suche__label { display: block; font-weight: 500; font-size: 15px; margin-bottom: 8px; }
+.suche__feld {
+  display: flex; gap: 8px; padding: 6px; background: var(--weiss);
+  border: 1px solid var(--linie); border-radius: 999px;
+}
+.suche__feld:focus-within { border-color: var(--nacht); }
+.suche__feld input {
+  flex: 1; min-width: 0; width: 100%; border: 0; background: transparent; outline: 0;
+  font: 500 19px/1 var(--sans); font-variant-numeric: tabular-nums; letter-spacing: .02em;
+  padding: 0 0 0 18px; color: var(--tinte);
+}
+.suche__feld input::placeholder { color: #9A9DA6; font-weight: 400; }
+.suche__feld .knopf { min-height: 46px; }
+.suche__ergebnis { min-height: 1.6em; margin-top: 12px; font-size: 15px; color: var(--grau); }
+.suche__ergebnis strong { color: var(--tinte); font-weight: 600; }
+.suche__ergebnis.ist-treffer { color: var(--tinte); }
+
+.jahre { display: flex; gap: 6px; margin-top: 56px; border-bottom: 1px solid var(--linie); }
+.jahre__knopf {
+  font: 400 26px/1 var(--serif); color: var(--grau);
+  background: none; border: 0; padding: 10px 14px 16px; cursor: pointer; position: relative;
+}
+.jahre__knopf::after {
+  content: ""; position: absolute; left: 14px; right: 14px; bottom: -1px; height: 2px; background: var(--nacht);
+  transform: scaleX(0); transition: transform .3s var(--kurve);
+}
+.jahre__knopf[aria-selected="true"] { color: var(--nacht); }
+.jahre__knopf[aria-selected="true"]::after { transform: scaleX(1); }
+.gewinn__status { margin: 22px 0 28px; color: var(--grau); max-width: 70ch; }
+
+.tuerchen {
+  display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px;
+}
+.tuer {
+  position: relative; perspective: 900px;
+  background: var(--weiss); border: 1px solid var(--linie);
+  padding: 16px 16px 18px; min-height: 196px;
+  display: flex; flex-direction: column;
+}
+.tuer__kopf { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
+.tuer__tag { font: 400 40px/1 var(--serif); color: var(--nacht); }
+.tuer__datum { font-size: 13px; color: var(--grau); }
+.tuer__lose {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 3px 10px;
+  font-size: 15px; font-variant-numeric: tabular-nums; letter-spacing: .01em; color: var(--tinte);
+}
+.tuer__lose li { padding: 1px 4px; margin: 0 -4px; border-radius: 3px; }
+.tuer__lose li.ist-treffer { background: var(--gold); color: var(--nacht); font-weight: 600; }
+.tuer__zu { margin-top: auto; font-size: 14px; color: var(--grau); }
+.tuer--zu { background: transparent; }
+.tuer--zu .tuer__tag { color: #B9B2A3; }
+.tuer--heute { border-color: var(--nacht); }
+.tuer--heute .tuer__zu { color: var(--nacht); font-weight: 500; }
+.tuer.ist-treffer { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold); }
+
+/* Türflügel: nur mit JavaScript, nur transform/opacity */
+.tuer__fluegel {
+  position: absolute; inset: -1px;
+  background: var(--nacht); color: var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  font: 400 56px/1 var(--serif);
+  transform-origin: left center;
+  backface-visibility: hidden;
+  transition: transform 1s var(--kurve), opacity .5s var(--kurve) .5s;
+  will-change: transform;
+  pointer-events: none;
+}
+.tuer__fluegel::after {
+  content: ""; position: absolute; inset: 8px; border: 1px solid var(--linie-hell);
+}
+.tuer.ist-offen .tuer__fluegel { transform: rotateY(-104deg); opacity: 0; }
+
+.gewinn__hinweis { margin-top: 24px; font-size: 14px; color: var(--grau); }
+
+/* Hotline */
+.hotline { background: var(--nacht-2); color: var(--weiss); padding: clamp(56px, 7vw, 88px) 0 0; }
+.hotline__innen { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 32px 64px; align-items: center; }
+.hotline__titel { font: 400 clamp(30px, 3.6vw, 44px)/1.1 var(--serif); margin-bottom: 16px; }
+.hotline p { color: rgba(255,255,255,.76); max-width: 48ch; }
+.hotline .hotline__achtung { margin-top: 14px; color: var(--weiss); }
+.hotline__nummer a {
+  display: inline-block; font: 400 clamp(40px, 5.6vw, 72px)/1 var(--serif); color: var(--gold);
+  text-decoration: none; white-space: nowrap;
+}
+.zeiten { margin-top: 18px; display: grid; gap: 4px; }
+.zeiten div { display: flex; gap: 14px; }
+.zeiten dt { min-width: 88px; color: rgba(255,255,255,.6); }
+.hotline__dank {
+  margin-top: clamp(40px, 5vw, 64px); padding-top: 22px; padding-bottom: 24px;
+  border-top: 1px solid rgba(255,255,255,.1);
+  font-size: 15px; color: rgba(255,255,255,.6);
+}
+.hotline .hotline__dank { max-width: var(--breite); }
+
+/* Verlosung */
+.verlosung { background: var(--weiss); padding: clamp(80px, 10vw, 140px) 0; text-align: center; }
+.verlosung .titel { margin-bottom: 40px; }
+.verlosung__gross {
+  font: 400 clamp(24px, 2.6vw, 32px)/1.35 var(--serif); color: var(--nacht);
+  margin: 0 auto 32px; max-width: 30ch;
+}
+.verlosung p:not(.verlosung__gross):not(.vorzeile) { color: var(--grau); max-width: 58ch; margin: 0 auto 16px; }
+
+/* Lose kaufen */
+.lose { padding: clamp(80px, 10vw, 136px) 0; }
+.lose__kopf { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 0 32px; }
+.lose__kopf .vorzeile { grid-column: 1 / -1; }
+.lose__preis { font-size: 18px; color: var(--grau); }
+.lose__preis span { font: 400 clamp(40px, 4.6vw, 60px)/1 var(--serif); color: var(--nacht); margin-right: 4px; }
+
+.verkaufstage { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 48px; }
+.tag {
+  display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 28px;
+  background: var(--weiss); border: 1px solid var(--linie); padding: 28px;
+}
+.tag__datum {
+  width: 92px; text-align: center; border-right: 1px solid var(--linie); padding-right: 24px;
+}
+.tag__nr { display: block; font: 400 60px/1 var(--serif); color: var(--nacht); }
+.tag__monat { display: block; font-size: 13px; color: var(--grau); margin-top: 6px; }
+.tag__titel { font: 600 18px/1.3 var(--sans); }
+.tag__zeit { font-weight: 500; color: var(--gold-dunkel); margin: 2px 0 10px; }
+.tag p:not(.tag__zeit):not(.tag__datum) { color: var(--grau); }
+
+.stellen { margin-top: 64px; padding-top: 40px; border-top: 1px solid var(--linie); }
+.stellen__titel { font: 400 clamp(26px, 2.8vw, 34px)/1.15 var(--serif); color: var(--nacht); margin-bottom: 26px; }
+.stellen__liste { columns: 3 240px; column-gap: 40px; }
+.stellen__liste li {
+  break-inside: avoid; padding: 11px 0; border-bottom: 1px solid var(--linie);
+}
+.stellen__liste span { color: var(--grau); font-size: 15px; }
+.stellen__hinweis { margin-top: 28px; color: var(--grau); }
+
+/* Erlöse */
+.erloese { background: var(--nacht); color: var(--weiss); padding: clamp(88px, 11vw, 150px) 0; }
+.erloese__zitat {
+  font: 400 clamp(32px, 4.6vw, 62px)/1.12 var(--serif); letter-spacing: -.01em; max-width: 22ch;
+}
+.projekte { margin-top: clamp(56px, 7vw, 96px); }
+.projekte__titel { font-weight: 500; font-size: 17px; color: rgba(255,255,255,.66); margin-bottom: 24px; max-width: 50ch; }
+.projekte__gross { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.projekte__gross li {
+  font: 400 clamp(22px, 2.1vw, 27px)/1.25 var(--serif);
+  padding: 26px 0 0; border-top: 1px solid var(--gold);
+}
+.projekte__liste { columns: 2 320px; column-gap: 48px; margin-top: 48px; }
+.projekte__liste li {
+  break-inside: avoid; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,.1);
+  color: rgba(255,255,255,.8); font-size: 16px;
+}
+.erloese__dank { margin-top: 56px; max-width: 62ch; color: rgba(255,255,255,.66); }
+
+/* Sponsoren */
+.sponsoren { padding: clamp(80px, 10vw, 136px) 0; }
+.sponsoren__kopf { max-width: 760px; margin-bottom: 44px; }
+.sponsoren__kopf p { margin-top: 14px; color: var(--grau); }
+.sponsoren__liste { columns: 4 220px; column-gap: 36px; }
+.sponsoren__liste li { break-inside: avoid; padding: 8px 0; border-bottom: 1px solid var(--linie); font-size: 15px; }
+.sponsoren__liste a { text-decoration-color: var(--gold); text-underline-offset: 3px; }
+
+/* Club */
+.club { background: var(--weiss); padding: clamp(80px, 10vw, 136px) 0; }
+.club__innen { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 48px clamp(48px, 7vw, 112px); }
+.club__text .titel { margin-bottom: 26px; }
+.club__lead { font: 400 clamp(22px, 2.2vw, 27px)/1.35 var(--serif); color: var(--nacht); margin-bottom: 18px; }
+.club__text p:not(.club__lead):not(.vorzeile) { color: var(--grau); margin-bottom: 14px; max-width: 58ch; }
+.club__text .knopf { margin-top: 18px; }
+.gruppe { background: var(--papier); padding: clamp(28px, 3.4vw, 44px); align-self: start; }
+.gruppe__titel { font: 400 30px/1.1 var(--serif); color: var(--nacht); margin-bottom: 18px; }
+.gruppe__liste div { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 16px; padding: 11px 0; border-bottom: 1px solid var(--linie); }
+.gruppe__liste div:last-child { border-bottom: 0; }
+.gruppe__liste dt { color: var(--grau); font-size: 15px; }
+.gruppe__liste dd { font-weight: 500; }
+
+/* Fuß */
+.fuss { background: var(--nacht); color: rgba(255,255,255,.72); padding-top: 72px; font-size: 15px; --logo-wort: #FFFFFF; }
+.fuss__innen { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr); gap: 40px; }
+.fuss__marke { display: grid; justify-items: start; align-content: start; color: var(--weiss); }
+.fuss__marke .marke__logo { width: 170px; }
+.fuss__marke .marke__club { font-size: 17px; }
+.fuss__titel { font: 600 15px/1.4 var(--sans); color: var(--weiss); margin-bottom: 10px; }
+.fuss__spalte p + p { margin-top: 8px; }
+.fuss a { color: var(--weiss); text-underline-offset: 3px; text-decoration-color: rgba(247,168,27,.6); }
+.fuss__unten {
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+  margin-top: 56px; padding-top: 22px; padding-bottom: 28px; border-top: 1px solid rgba(255,255,255,.1);
+  font-size: 14px; color: rgba(255,255,255,.5);
+}
+.fuss__unten a { margin-left: 18px; color: rgba(255,255,255,.7); }
+.fuss__unten a:first-child { margin-left: 0; }
+
+/* Einblenden beim Scrollen (nur mit JavaScript) */
+.js .zeigen { opacity: 0; transform: translateY(18px); transition: opacity .8s var(--kurve), transform .8s var(--kurve); }
+.js .zeigen.ist-sichtbar { opacity: 1; transform: none; }
+
+/* Responsiv */
+@media (max-width: 1180px) {
+  .tuerchen { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (max-width: 1080px) {
+  .menue-knopf {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: none; border: 0; color: var(--weiss); font: 500 15px/1 var(--sans); cursor: pointer; padding: 10px 0;
+  }
+  .menue-knopf__linien { width: 22px; height: 10px; position: relative; }
+  .menue-knopf__linien::before, .menue-knopf__linien::after {
+    content: ""; position: absolute; left: 0; right: 0; height: 1.5px; background: currentColor;
+    transition: transform .3s var(--kurve);
+  }
+  .menue-knopf__linien::before { top: 0; }
+  .menue-knopf__linien::after { bottom: 0; }
+  .menue-knopf[aria-expanded="true"] .menue-knopf__linien::before { transform: translateY(4.25px) rotate(45deg); }
+  .menue-knopf[aria-expanded="true"] .menue-knopf__linien::after { transform: translateY(-4.25px) rotate(-45deg); }
+  .navigation {
+    position: absolute; top: 100%; left: 0; right: 0;
+    flex-direction: column; align-items: stretch; gap: 0;
+    background: var(--nacht); padding: 8px var(--rand) 24px;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    opacity: 0; transform: translateY(-8px); visibility: hidden;
+    transition: opacity .3s var(--kurve), transform .3s var(--kurve), visibility 0s linear .3s;
+  }
+  .navigation.ist-offen { opacity: 1; transform: none; visibility: visible; transition-delay: 0s; }
+  .navigation a { padding: 14px 0; font-size: 18px; border-bottom: 1px solid rgba(255,255,255,.08); }
+  .navigation a::after { display: none; }
+  .navigation .navigation__hotline { margin-top: 16px; text-align: center; border-bottom: 0; }
+}
+@media (max-width: 960px) {
+  .buehne__innen { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .buehne__text { display: contents; }
+  .buehne__kalender { max-width: 680px; margin: 36px 14px 8px 14px; order: 1; }
+  .buehne__lead, .buehne__absatz, .buehne__aktionen { order: 2; }
+  .gewinn__kopf { grid-template-columns: minmax(0, 1fr); }
+  .hotline__innen { grid-template-columns: 1fr; }
+  .club__innen { grid-template-columns: 1fr; }
+  .fuss__innen { grid-template-columns: 1fr 1fr; }
+  .fuss__marke { grid-column: 1 / -1; }
+  .projekte__gross { grid-template-columns: 1fr; gap: 0; }
+  .projekte__gross li { padding: 18px 0; border-top: 0; border-bottom: 1px solid var(--gold); }
+  .projekte__gross li:first-child { border-top: 1px solid var(--gold); }
+}
+@media (max-width: 860px) {
+  .tuerchen { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .verkaufstage { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  body { font-size: 16px; }
+  .tuerchen { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .tuer { padding: 14px 12px 16px; min-height: 0; }
+  .tuer__tag { font-size: 34px; }
+  .tuer__lose { gap: 2px 6px; font-size: 14px; }
+  .tuer--zu { min-height: 118px; }
+  .lose__kopf { grid-template-columns: 1fr; }
+  .lose__preis { margin-top: 16px; }
+  .tag { grid-template-columns: 1fr; gap: 16px; padding: 22px; }
+  .tag__datum { width: auto; text-align: left; border-right: 0; padding-right: 0; display: flex; align-items: baseline; gap: 10px; }
+  .tag__nr { font-size: 48px; }
+  .fuss__innen { grid-template-columns: 1fr; }
+  .buehne__aktionen .knopf { width: 100%; }
+  .buehne__fuss span { display: none; }
+  .buehne__fuss { display: grid; gap: 4px; }
+  .jahre { margin-top: 44px; }
+  .suche__feld input { padding-left: 14px; font-size: 18px; }
+}
+@media (max-width: 360px) {
+  .tuer__lose { font-size: 13px; }
+  .tuer { padding: 12px 10px 14px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition-duration: .01ms !important; transition-delay: 0s !important; }
+  .tuer__fluegel { display: none; }
+  .js .zeigen { opacity: 1; transform: none; }
+}

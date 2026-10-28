@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gewinnzahlen eintragen · Rotary Adventskalender</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0B1730">
+<link rel="stylesheet" href="style.css?v=2026102801">
+<link rel="stylesheet" href="verwaltung.css?v=2026102801">
+</head>
+<body class="verwaltung">
+{{LOGO}}
+<p class="entwurf">Demo der Verwaltung · Einträge werden nur in diesem Browser gespeichert</p>
+
+<header class="kopf">
+  <div class="kopf__innen">
+    <a class="marke" href="index.html" aria-label="Zur Startseite">
+      <svg class="marke__logo" viewBox="0 0 392.25867 147.82533" aria-hidden="true"><use href="#rotary-logo"/></svg>
+      <span class="marke__club">Club Kulmbach</span>
+    </a>
+    <a class="knopf knopf--linie v-zurueck" href="index.html#gewinnzahlen">Zur Seite</a>
+  </div>
+</header>
+
+<main class="rahmen v-rahmen">
+  <h1 class="titel">Gewinnzahlen eintragen</h1>
+  <p class="v-einleitung">Tag wählen, Losnummern einfügen, veröffentlichen. Die Zahlen erscheinen sofort im passenden Türchen auf der Seite.</p>
+
+  <div class="v-raster">
+    <form class="v-formular" id="formular" novalidate>
+      <div class="v-zeile">
+        <label for="jahr">Jahr</label>
+        <select id="jahr"><option>2026</option><option>2025</option></select>
+      </div>
+      <div class="v-zeile">
+        <label for="tag">Tag</label>
+        <select id="tag"></select>
+      </div>
+      <div class="v-zeile">
+        <label for="lose">Losnummern</label>
+        <textarea id="lose" rows="7" placeholder="Eine Nummer pro Zeile, oder mit Komma bzw. Leerzeichen getrennt"></textarea>
+        <p class="v-hilfe" id="hilfe">Noch keine Nummern erkannt.</p>
+      </div>
+      <ul class="v-vorschau" id="vorschau" aria-label="Erkannte Losnummern"></ul>
+      <div class="v-aktionen">
+        <button class="knopf knopf--gold" type="submit">Veröffentlichen</button>
+        <button class="knopf knopf--linie-dunkel" type="button" id="loeschen">Tag leeren</button>
+      </div>
+      <p class="v-meldung" id="meldung" role="status" aria-live="polite"></p>
+    </form>
+
+    <section aria-labelledby="ueberblick-titel">
+      <h2 id="ueberblick-titel" class="v-titel">Überblick <span id="ueberblick-jahr">2026</span></h2>
+      <ol class="v-tage" id="tage"></ol>
+    </section>
+  </div>
+</main>
+
+<script src="gewinnzahlen.js?v=2026102801"></script>
+<script src="verwaltung.js?v=2026102801"></script>
+</body>
+</html>

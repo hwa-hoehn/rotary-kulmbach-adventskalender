@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rotary Adventskalender 2026 · Rotary Club Kulmbach</title>
+<meta name="description" content="Rotary Adventsverlosung hilft Kindern in Not! Der Rotaryclub Kulmbach unterstützt mit dem Erlös dieser Aktion Kinder- &amp; Jugendprojekte im Landkreis Kulmbach.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0B1730">
+<link rel="preload" href="fonts/libre-caslon-display.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/albert-sans.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="style.css?v=2026102801">
+<script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+{{LOGO}}
+<p class="entwurf">Gestaltungsvorschlag · keine offizielle Seite des Rotary Club Kulmbach</p>
+
+<header class="kopf" id="kopf">
+  <div class="kopf__innen">
+    <a class="marke" href="#start" aria-label="Rotary Club Kulmbach, zum Seitenanfang">
+      <svg class="marke__logo" viewBox="0 0 392.25867 147.82533" aria-hidden="true"><use href="#rotary-logo"/></svg>
+      <span class="marke__club">Club Kulmbach</span>
+    </a>
+    <button class="menue-knopf" type="button" aria-expanded="false" aria-controls="navigation">
+      <span class="menue-knopf__linien" aria-hidden="true"></span><span class="menue-knopf__text">Menü</span>
+    </button>
+    <nav class="navigation" id="navigation" aria-label="Hauptnavigation">
+      <a href="#gewinnzahlen">Gewinnzahlen</a>
+      <a href="#verlosung">Verlosung</a>
+      <a href="#lose">Lose kaufen</a>
+      <a href="#erloese">Hilfsprojekte</a>
+      <a href="#sponsoren">Sponsoren</a>
+      <a href="#club">Der Club</a>
+      <a class="navigation__hotline" href="tel:+49922195730">Hotline 09221 / 95730</a>
+    </nav>
+  </div>
+</header>
+
+<main id="start">
+
+  <section class="buehne" aria-labelledby="titel">
+    <div class="buehne__innen">
+      <div class="buehne__text">
+        <h1 id="titel" class="buehne__titel">
+          <span class="buehne__zeile buehne__zeile--klein">Rotary</span>
+          <span class="buehne__zeile">Advents&shy;kalender</span>
+          <span class="buehne__zeile buehne__jahr">2026</span>
+        </h1>
+        <p class="buehne__lead">Rotary Adventsverlosung hilft Kindern in Not!</p>
+        <p class="buehne__absatz">Der Rotaryclub Kulmbach unterstützt mit dem Erlös dieser Aktion Kinder- &amp; Jugendprojekte im Landkreis Kulmbach!</p>
+        <div class="buehne__aktionen">
+          <a class="knopf knopf--gold" href="#gewinnzahlen">Gewinnzahlen ansehen</a>
+          <a class="knopf knopf--linie" href="#lose">Wo kann ich ein Kalenderlos kaufen</a>
+        </div>
+      </div>
+      <figure class="buehne__kalender">
+        <img src="bilder/kalender-2026.webp" srcset="bilder/kalender-2026-900.webp 900w, bilder/kalender-2026.webp 1800w" sizes="(min-width: 1000px) 640px, 92vw" width="1800" height="1262" alt="Der Rotary Adventskalender 2026: verschneite Altstadt von Kulmbach mit dem Roten Turm, darauf die goldenen Türchen 1 bis 24" fetchpriority="high">
+      </figure>
+    </div>
+    <p class="buehne__fuss">Kalenderlos 5 Euro / Stück <span aria-hidden="true">·</span> Aktualisierung der Losnummern täglich zwischen 07.30 und 10.00 Uhr</p>
+  </section>
+
+  <section class="gewinn" id="gewinnzahlen" aria-labelledby="gewinn-titel">
+    <div class="rahmen">
+      <div class="gewinn__kopf">
+        <div>
+          <h2 id="gewinn-titel" class="titel">Gewinnzahlen</h2>
+          <p class="gewinn__unter">Hier finden Sie alle Gewinnzahlen</p>
+        </div>
+        <form class="suche" id="suche" role="search" novalidate>
+          <label class="suche__label" for="losnummer">Ihre Losnummer</label>
+          <div class="suche__feld">
+            <input id="losnummer" name="losnummer" inputmode="numeric" autocomplete="off" pattern="[0-9]*" maxlength="8" placeholder="z. B. 253162">
+            <button class="knopf knopf--nacht" type="submit">Prüfen</button>
+          </div>
+          <p class="suche__ergebnis" id="suche-ergebnis" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+
+      <div class="jahre" role="tablist" aria-label="Jahr wählen">
+        <button class="jahre__knopf" role="tab" type="button" data-jahr="2026" aria-selected="false">2026</button>
+        <button class="jahre__knopf" role="tab" type="button" data-jahr="2025" aria-selected="false">2025</button>
+      </div>
+      <p class="gewinn__status" id="gewinn-status"></p>
+
+      <ol class="tuerchen" id="tuerchen" aria-label="Gewinnzahlen nach Tag"></ol>
+
+      <p class="gewinn__hinweis">Alle Zahlen sind ohne Gewähr!</p>
+    </div>
+  </section>
+
+  <section class="hotline" aria-labelledby="hotline-titel">
+    <div class="rahmen hotline__innen">
+      <div>
+        <h2 id="hotline-titel" class="hotline__titel">Kontakt, wenn Sie gewonnen haben</h2>
+        <p>Wo Sie Ihren Preis abholen können, erfahren Sie unter der Hotline.</p>
+        <p class="hotline__achtung">Achtung! Der Kalender mit der Losnummer muss zum Abholen des Preises mitgebracht werden.</p>
+      </div>
+      <div class="hotline__nummer">
+        <a href="tel:+49922195730">09221 / 95730</a>
+        <dl class="zeiten">
+          <div><dt>Mo. – Do.</dt><dd>9.00 – 16.00 Uhr</dd></div>
+          <div><dt>Fr.</dt><dd>9.00 – 12.00 Uhr</dd></div>
+        </dl>
+      </div>
+    </div>
+    <p class="rahmen hotline__dank">Vielen herzlichen Dank an die Firma KRÜGER – Personal Headhunting für die Verteilung der Preise an die Gewinner.</p>
+  </section>
+
+  <section class="verlosung" id="verlosung" aria-labelledby="verlosung-titel">
+    <div class="rahmen rahmen--schmal">
+      <p class="vorzeile">So funktioniert die Verlosung</p>
+      <h2 id="verlosung-titel" class="titel">Und so können Sie jeden Tag gewinnen</h2>
+      <p class="verlosung__gross">Jeden Tag öffnen Sie ein Fenster des Glücks an Ihrem Adventskalender. Dort sehen Sie alle Gewinne, die an diesem Tag ausgeschüttet werden.</p>
+      <p>Gewonnen haben Sie, wenn die Los-Nummer, die Sie auf der Vorderseite Ihres Kalenders finden, mit einer für diesen Tag ausgelosten Nummer übereinstimmt.</p>
+      <p>Die Losnummern, die gewonnen haben, und welcher der Gewinne für Sie bereitsteht, wird täglich aktuell in der Bayerischen Rundschau und auf der Internetseite www.rotaryclub-kulmbach.de veröffentlicht.</p>
+    </div>
+  </section>
+
+  <section class="lose" id="lose" aria-labelledby="lose-titel">
+    <div class="rahmen">
+      <div class="lose__kopf">
+        <p class="vorzeile">Wo kann ich ein Kalenderlos kaufen</p>
+        <h2 id="lose-titel" class="titel">Kalenderlosverkauf</h2>
+        <p class="lose__preis"><span>5 Euro</span> / Stück</p>
+      </div>
+
+      <div class="verkaufstage">
+        <article class="tag">
+          <p class="tag__datum"><span class="tag__nr">13</span><span class="tag__monat">November</span></p>
+          <div>
+            <h3 class="tag__titel">Freitag, 13.11.26</h3>
+            <p class="tag__zeit">14.00 – 18.00 Uhr</p>
+            <p>REWE Hollweg, Kaufland, Edeka Seidl</p>
+          </div>
+        </article>
+        <article class="tag">
+          <p class="tag__datum"><span class="tag__nr">14</span><span class="tag__monat">November</span></p>
+          <div>
+            <h3 class="tag__titel">Samstag, 14.11.26</h3>
+            <p class="tag__zeit">9.00 – 14.00 Uhr</p>
+            <p>REWE Hollweg, Kaufland</p>
+            <p>Edeka Seidl 7.30 – 14.00 Uhr</p>
+            <p>Marktplatz 8.30 – 12.30 Uhr</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="stellen">
+        <h3 class="stellen__titel">Verkaufsstellen ab dem 02.11.26</h3>
+        <ul class="stellen__liste">
+          <li>Buchhandlung Friedrich</li>
+          <li>Schneiderei Högen</li>
+          <li>Maßmanufaktur Schneider</li>
+          <li>Herrenmode Schneider</li>
+          <li>Obere Apotheke</li>
+          <li>Motor Nützel – Goldenes Feld <span>(ehem. Autotechnik Hahn)</span></li>
+          <li>Stern Apotheke</li>
+          <li>Stadtpark Apotheke</li>
+          <li>Reisecenter Schaffranek</li>
+          <li>Sparkasse Kulmbach Kronach <span>(Hauptstelle)</span></li>
+          <li>Apotheke im Fritz</li>
+          <li>Blumen am Ratskeller</li>
+          <li>Salon SchnippSchnapp</li>
+        </ul>
+        <p class="stellen__hinweis">Bestellungen per Mail sind leider heuer nicht möglich! Bitte erwerben Sie die Kalender bei den genannten Vorverkaufsstellen.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="erloese" id="erloese" aria-labelledby="erloese-titel">
+    <div class="rahmen">
+      <p class="vorzeile vorzeile--hell">Wem kommen die Erlöse zugute</p>
+      <h2 id="erloese-titel" class="erloese__zitat">Der gesamte Erlös wird für Projekte der Kinder- und Jugendarbeit im Landkreis Kulmbach verwendet.</h2>
+
+      <div class="projekte">
+        <h3 class="projekte__titel">Dank Ihrer Hilfe konnten folgende Projekte erfolgreich durchgeführt werden</h3>
+        <ul class="projekte__gross">
+          <li>CVG / Defibrillator / Turnhalle</li>
+          <li>Sommerkunstwochen – Workshops für Kinder und Jugendliche</li>
+          <li>Mehrgenerationenhaus – Fit für Kids</li>
+        </ul>
+        <ul class="projekte__liste">
+          <li>Kultur für Senioren</li>
+          <li>CVG und Fränkischer Theatersommer – Theaterprojekt für Jugendliche</li>
+          <li>Haus Schmeilsdorf – Treppensteiger für Behindertenarbeit</li>
+          <li>Werner-Grampp-Förderschule – Unterstützung für das Theaterprojekt</li>
+          <li>Kindergarten Wolfskehle – Anschaffung eines Spielgerüstes</li>
+          <li>Evangelische Jugend – Kindermitmachzirkus „BAMBINO“</li>
+          <li>Interkulturelles Kochbuch der Frauengruppe im Familientreff – Übernahme der Druckkosten</li>
+          <li>Kulturschule Gössmannsreuth – Finanzierung einer Musikanlage</li>
+          <li>Lesementoren – Unterstützung bei Ankauf von Lehrmaterialien</li>
+          <li>Schloßtheater Thurnau – soziokulturelles Projekt zu der Erkrankung Parkinson</li>
+          <li>Kita Lummerland – Erneuerung Spielgeräte im Außenbereich</li>
+          <li>Traumapädagogisches „Kinderhaus Sternstunden“</li>
+        </ul>
+      </div>
+      <p class="erloese__dank">Wir bedanken uns hiermit bei allen, die ein Los gekauft haben. So wird es uns auch in Zukunft möglich sein, viele Kinder- und Jugendprojekte in Kulmbach zu unterstützen. Vielen herzlichen Dank!</p>
+    </div>
+  </section>
+
+  <section class="sponsoren" id="sponsoren" aria-labelledby="sponsoren-titel">
+    <div class="rahmen">
+      <div class="sponsoren__kopf">
+        <h2 id="sponsoren-titel" class="titel">Herzlichen Dank an alle Sponsoren!</h2>
+        <p>Diese Unternehmen unterstützen die Verlosung (in alphabetischer Reihenfolge):</p>
+      </div>
+      <ul class="sponsoren__liste">
+        {{SPONSOREN}}
+      </ul>
+    </div>
+  </section>
+
+  <section class="club" id="club" aria-labelledby="club-titel">
+    <div class="rahmen club__innen">
+      <div class="club__text">
+        <p class="vorzeile">Rotary Club Kulmbach stellt sich vor</p>
+        <h2 id="club-titel" class="titel">Über uns</h2>
+        <p class="club__lead">Unser Rotary Club Kulmbach hat aktuell 61 rotarische Freundinnen und Freunde.</p>
+        <p>Wir sind Teil einer weltweiten Vereinigung von führenden Persönlichkeiten in Wirtschaft und Gesellschaft, die soziale Dienste leisten und sich zur Aufgabe gemacht haben, Freundschaft und Fairness im geschäftlichen und persönlichen Leben zu pflegen.</p>
+        <p>Der Rotary Club (RC) Kulmbach wurde im Jahre 1966 vom Nachbarclub RC Bayreuth gegründet. Der Verein Rotary Hilfswerk Kulmbach e.V. unterstützt Projekte im sozialen und kulturellen Bereich mit Zuwendungen seit über 35 Jahren.</p>
+        <a class="knopf knopf--linie-dunkel" href="https://kulmbach.rotary.de/" rel="noopener">Zur Homepage des Rotary Club Kulmbach</a>
+      </div>
+      <div class="gruppe">
+        <h3 class="gruppe__titel">Die Projektgruppe</h3>
+        <dl class="gruppe__liste">
+          <div><dt>Leitung</dt><dd>Stephan Gimpel Henning</dd></div>
+          <div><dt>Hilfswerk</dt><dd>Horst Hohenner</dd></div>
+          <div><dt>Vertrieb</dt><dd>Klaus Buß, Steffen Cyris</dd></div>
+          <div><dt>Preisverteilung</dt><dd>Matthias &amp; Mientje Krüger</dd></div>
+          <div><dt>Standausstattung</dt><dd>Andreas Kunz</dd></div>
+          <div><dt>Webseite &amp; Finanzen</dt><dd>Robert Zietz</dd></div>
+          <div><dt>Schatzmeister</dt><dd>Thomas Streng</dd></div>
+          <div><dt>Layout &amp; Druck</dt><dd>Holger Riegg</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="fuss">
+  <div class="rahmen fuss__innen">
+    <div class="fuss__marke">
+      <svg class="marke__logo" viewBox="0 0 392.25867 147.82533" aria-hidden="true"><use href="#rotary-logo"/></svg>
+      <span class="marke__club">Club Kulmbach</span>
+    </div>
+    <div class="fuss__spalte">
+      <h2 class="fuss__titel">Hotline für Gewinner</h2>
+      <p><a href="tel:+49922195730">09221 / 95730</a></p>
+      <p>Mo. – Do. 9.00 – 16.00 Uhr<br>Fr. 9.00 – 12.00 Uhr</p>
+    </div>
+    <div class="fuss__spalte">
+      <h2 class="fuss__titel">Verantwortlich</h2>
+      <p>Im Auftrag des Rotaryclubs Kulmbach<br>Robert Zietz, Internetbeauftragter</p>
+      <p><a href="mailto:rzietz@hotmail.com">rzietz@hotmail.com</a></p>
+    </div>
+  </div>
+  <div class="rahmen fuss__unten">
+    <p>© Rotaryclub Kulmbach</p>
+    <p><a href="https://www.rotaryclub-kulmbach.de/impressum/" rel="noopener">Impressum</a> <a href="https://www.rotaryclub-kulmbach.de/datenschutz/" rel="noopener">Datenschutz</a> <a href="verwaltung.html">Verwaltung</a></p>
+  </div>
+</footer>
+
+<script src="gewinnzahlen.js?v=2026102801"></script>
+<script src="app.js?v=2026102801"></script>
+</body>
+</html>
