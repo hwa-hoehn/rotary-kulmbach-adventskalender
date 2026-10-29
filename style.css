@@ -247,6 +247,24 @@ ul, ol { padding: 0; list-style: none; }
 }
 .tuer.ist-offen .tuer__fluegel { transform: rotateY(-104deg); opacity: 0; }
 
+/* Geschlossenes Türchen: Ausschnitt vom Kalendermotiv */
+.tuer--deckel { border-color: transparent; overflow: hidden; }
+.tuer__deckel {
+  position: absolute; inset: -1px;
+  background-color: var(--nacht); background-repeat: no-repeat;
+}
+.tuer__deckel::after {
+  content: ""; position: absolute; inset: 8px; border: 1px solid rgba(255,255,255,.22); pointer-events: none;
+}
+.tuer__schild {
+  position: absolute; left: 10px; bottom: 10px;
+  font-size: 13px; line-height: 1; color: #fff;
+  background: rgba(11, 23, 48, .72); padding: 6px 9px; border-radius: 999px;
+  font-variant-numeric: tabular-nums;
+}
+.tuer--heute .tuer__deckel::after { border-color: var(--gold); border-width: 2px; }
+.tuer--heute .tuer__schild { background: var(--gold); color: var(--nacht); font-weight: 600; }
+
 .gewinn__hinweis { margin-top: 24px; font-size: 14px; color: var(--grau); }
 
 /* Treffer: Ergebnis und Gewinn-Animation */
@@ -483,6 +501,7 @@ ul, ol { padding: 0; list-style: none; }
   .tuer__tag { font-size: 34px; }
   .tuer__lose { gap: 2px 6px; font-size: 14px; }
   .tuer--zu { min-height: 118px; }
+  .tuer--deckel { min-height: 150px; }
   .lose__kopf { grid-template-columns: 1fr; }
   .lose__preis { margin-top: 16px; }
   .tag { grid-template-columns: 1fr; gap: 16px; padding: 22px; }

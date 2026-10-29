@@ -80,15 +80,31 @@
           }).join('') +
           '</ul></li>';
       } else {
-        html += '<li class="tuer tuer--zu' + (istHeute ? ' tuer--heute' : '') + '" data-tag="' + tag + '">' +
+        // Geschlossenes Türchen: Ausschnitt vom Kalendermotiv, Text bleibt für Screenreader darunter
+        var deckel = jahr === aktuellesJahr
+          ? '<span class="tuer__deckel" aria-hidden="true" data-tag="' + tag + '">' +
+            '<span class="tuer__schild">' + (istHeute ? 'Heute ab 07.30 Uhr' : zweistellig(tag) + '.12.') + '</span></span>'
+          : '';
+        html += '<li class="tuer tuer--zu' + (istHeute ? ' tuer--heute' : '') + (deckel ? ' tuer--deckel' : '') + '" data-tag="' + tag + '">' +
           '<div class="tuer__kopf"><span class="tuer__tag">' + tag + '</span><span class="tuer__datum">' + datum + '</span></div>' +
-          '<p class="tuer__zu">' + (istHeute ? 'Heute zwischen 07.30 und 10.00 Uhr' : 'Noch nicht gezogen') + '</p></li>';
+          '<p class="tuer__zu">' + (istHeute ? 'Heute zwischen 07.30 und 10.00 Uhr' : 'Noch nicht gezogen') + '</p>' + deckel + '</li>';
       }
     }
     liste.innerHTML = html;
     if (treffer) markiereTreffer();
+    deckelZeichnen();
     fluegel();
   }
+
+  function deckelZeichnen() {
+    liste.querySelectorAll('.tuer__deckel').forEach(function (d) { motivAusschnitt(d, Number(d.dataset.tag)); });
+  }
+
+  var groesseZeit = null;
+  window.addEventListener('resize', function () {
+    clearTimeout(groesseZeit);
+    groesseZeit = setTimeout(deckelZeichnen, 150);
+  });
 
   // Lage der 24 Türchen auf dem Kalendermotiv 2026 (x, y, Kantenlänge in Pixeln bei 1268 × 896),
   // ermittelt aus den Stanzlinien der Druckvorlage
@@ -170,6 +186,7 @@
     e.preventDefault();
     var nr = feld.value.trim();
     var jd = daten[aktuellesJahr] || {};
+    if (nr.length >= 4 && window.rkZaehlen) window.rkZaehlen('suche');
     ergebnis.classList.remove('ist-treffer', 'ist-neu');
     treffer = null;
 
@@ -198,6 +215,7 @@
     }
 
     treffer = nr;
+    if (window.rkZaehlen) window.rkZaehlen('treffer');
     ergebnis.innerHTML = '<strong>Gewonnen!</strong> Die Losnummer ' + nr + ' ist unter den Gewinnzahlen vom ' +
       zweistellig(tag) + '.12.' + aktuellesJahr.slice(2) + '. Wo Sie Ihren Preis abholen können, erfahren Sie unter der Hotline <a href="tel:+49922195730">09221 / 95730</a>.';
     zeichne(aktuellesJahr);

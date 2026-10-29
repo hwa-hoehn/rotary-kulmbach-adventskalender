@@ -90,12 +90,84 @@
     tageListe.innerHTML = html;
   }
 
+  // Besuche (nur mit Server)
+
+  var statistik = { tage: {}, heute: null };
+  var zeitraum = 30;
+
+  function datumListe(bis, anzahl) {
+    var liste = [], d = new Date(bis + 'T12:00:00');
+    for (var i = anzahl - 1; i >= 0; i--) {
+      var x = new Date(d); x.setDate(d.getDate() - i);
+      liste.push(x.getFullYear() + '-' + zweistellig(x.getMonth() + 1) + '-' + zweistellig(x.getDate()));
+    }
+    return liste;
+  }
+  function kurzDatum(iso) { return iso.slice(8, 10) + '.' + iso.slice(5, 7) + '.'; }
+  function zahl(n) { return n.toLocaleString('de-DE'); }
+
+  function zeichneStatistik() {
+    var tage = datumListe(statistik.heute, zeitraum);
+    var werte = tage.map(function (t) {
+      var w = statistik.tage[t] || {};
+      return { tag: t, aufrufe: w.aufrufe || 0, besucher: w.besucher || 0, suchen: w.suchen || 0, treffer: w.treffer || 0 };
+    });
+    var summe = function (k) { return werte.reduce(function (a, w) { return a + w[k]; }, 0); };
+    $('kennzahlen').innerHTML = [['Aufrufe', 'aufrufe'], ['Besucher', 'besucher'], ['Losnummer-Suchen', 'suchen'], ['Treffer', 'treffer']]
+      .map(function (k) { return '<div><dt>' + k[0] + '</dt><dd>' + zahl(summe(k[1])) + '</dd></div>'; }).join('');
+
+    var max = Math.max.apply(null, werte.map(function (w) { return w.aufrufe; }));
+    var spitze = werte.filter(function (w) { return w.aufrufe === max; })[0];
+    $('diagramm-spitze').textContent = max ? 'Aufrufe pro Tag · höchster Wert ' + zahl(max) + ' am ' + kurzDatum(spitze.tag) : 'Aufrufe pro Tag · noch keine Aufrufe in diesem Zeitraum';
+    $('diagramm-flaeche').innerHTML = werte.map(function (w, i) {
+      var h = max ? Math.max(w.aufrufe ? 2 : 0, Math.round(w.aufrufe / max * 100)) : 0;
+      return '<div class="v-saeule' + (w.aufrufe ? '' : ' v-saeule--leer') + '" data-i="' + i + '"><span style="height:' + h + '%"></span></div>';
+    }).join('');
+    var mitte = werte[Math.floor(werte.length / 2)];
+    $('diagramm-achse').innerHTML = '<span>' + kurzDatum(werte[0].tag) + '</span><span>' + kurzDatum(mitte.tag) + '</span><span>' + kurzDatum(werte[werte.length - 1].tag) + '</span>';
+    $('tabelle').innerHTML = werte.slice().reverse().map(function (w) {
+      return '<tr><td>' + kurzDatum(w.tag) + '</td><td>' + w.aufrufe + '</td><td>' + w.besucher + '</td><td>' + w.suchen + '</td><td>' + w.treffer + '</td></tr>';
+    }).join('');
+
+    var flaeche = $('diagramm-flaeche'), tipp = $('diagramm-tipp');
+    flaeche.onmousemove = function (e) {
+      var s = e.target.closest('.v-saeule');
+      if (!s) { tipp.hidden = true; return; }
+      var w = werte[+s.dataset.i];
+      var r = s.getBoundingClientRect(), r0 = $('diagramm').getBoundingClientRect();
+      tipp.innerHTML = '<strong>' + kurzDatum(w.tag) + '</strong> ' + w.aufrufe + ' Aufrufe, ' + w.besucher + ' Besucher';
+      tipp.style.left = Math.min(Math.max(r.left - r0.left + r.width / 2, 90), r0.width - 90) + 'px';
+      tipp.hidden = false;
+    };
+    flaeche.onmouseleave = function () { tipp.hidden = true; };
+  }
+
+  function ladeStatistik() {
+    return api('statistik').then(function (j) {
+      statistik = { tage: j.tage || {}, heute: j.heute };
+      zeichneStatistik();
+    }).catch(function () {
+      $('statistik-hinweis').textContent = 'Statistik konnte nicht geladen werden.';
+    });
+  }
+
+  document.querySelector('.v-zeitraum').addEventListener('click', function (e) {
+    var b = e.target.closest('button');
+    if (!b || !statistik.heute) return;
+    zeitraum = +b.dataset.tage;
+    this.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+    zeichneStatistik();
+  });
+
   // Start: Server vorhanden?
 
   function starteDemo() {
     modus = 'demo';
     try { eingetragen = JSON.parse(localStorage.getItem(SPEICHER) || '{}'); } catch (e) { eingetragen = {}; }
     $('modus-hinweis').textContent = 'Demo der Verwaltung · Einträge werden nur in diesem Browser gespeichert';
+    $('statistik-inhalt').hidden = true;
+    document.querySelector('.v-zeitraum').hidden = true;
+    $('statistik-hinweis').textContent = 'Die Besucherzahlen erscheinen hier, sobald die Seite auf dem IONOS-Webspace läuft. Gezählt wird dann ohne Cookies und ohne Google.';
     zeige('bereich');
     ladeTag();
   }
@@ -108,6 +180,7 @@
     return api('zahlen').then(function (j) {
       eingetragen = j.zahlen || {};
       zeige('bereich');
+      ladeStatistik();
       if (eingabeBehalten) {
         eingabeBehalten = false;
         meldung.textContent = 'Wieder angemeldet. Bitte erneut auf Veröffentlichen tippen.';

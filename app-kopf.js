@@ -17,4 +17,15 @@
       }
     });
   }
+  // Seitenaufruf zählen (nur mit Server; ohne Cookies)
+  window.rkZaehlen = function (ereignis) {
+    try {
+      fetch('api.php?aktion=zaehlen', {
+        method: 'POST', keepalive: true,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ereignis: ereignis })
+      }).catch(function () {});
+    } catch (e) { /* ohne Server nichts zu tun */ }
+  };
+  window.rkZaehlen('aufruf');
 })();

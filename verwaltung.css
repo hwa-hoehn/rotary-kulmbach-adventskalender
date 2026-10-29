@@ -62,3 +62,44 @@
   margin-left: 10px; font: 500 15px/1 var(--sans); color: var(--nacht); background: none;
   border: 1px solid var(--nacht); border-radius: 999px; padding: 8px 14px; cursor: pointer;
 }
+
+/* Besuche */
+.v-statistik { margin-top: 64px; padding-top: 40px; border-top: 1px solid var(--linie); }
+.v-statistik__kopf { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; margin-bottom: 20px; }
+.v-statistik__kopf .v-titel { margin: 0; }
+.v-zeitraum { display: inline-flex; border: 1px solid var(--linie); border-radius: 999px; padding: 3px; background: var(--weiss); }
+.v-zeitraum button {
+  font: 500 14px/1 var(--sans); color: var(--grau); background: none; border: 0; border-radius: 999px;
+  padding: 9px 14px; cursor: pointer;
+}
+.v-zeitraum button[aria-pressed="true"] { background: var(--nacht); color: #fff; }
+.v-kennzahlen { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-bottom: 20px; }
+.v-kennzahlen div { background: var(--weiss); border: 1px solid var(--linie); padding: 16px 18px; }
+.v-kennzahlen dt { font-size: 14px; color: var(--grau); }
+.v-kennzahlen dd { font: 400 40px/1.1 var(--serif); color: var(--nacht); margin-top: 4px; font-variant-numeric: lining-nums; }
+.v-diagramm { position: relative; background: var(--weiss); border: 1px solid var(--linie); padding: 18px 18px 10px; }
+.v-diagramm__flaeche {
+  height: 180px; display: flex; align-items: flex-end; gap: 2px;
+  border-bottom: 1px solid #CFC7B6;
+}
+.v-saeule { flex: 1 1 0; height: 100%; display: flex; align-items: flex-end; cursor: default; min-width: 0; }
+.v-saeule span { display: block; width: 100%; background: var(--royal); border-radius: 4px 4px 0 0; min-height: 0; transform-origin: bottom; }
+.v-saeule:hover span, .v-saeule:focus span { background: var(--nacht); }
+.v-saeule--leer span { background: transparent; }
+.v-diagramm__achse { display: flex; justify-content: space-between; font-size: 12px; color: var(--grau); margin-top: 6px; font-variant-numeric: tabular-nums; }
+.v-diagramm__tipp {
+  position: absolute; top: 8px; transform: translateX(-50%);
+  background: var(--nacht); color: #fff; font-size: 13px; line-height: 1.4; padding: 7px 10px; border-radius: 8px;
+  pointer-events: none; white-space: nowrap; font-variant-numeric: tabular-nums;
+}
+.v-tabelle { margin-top: 14px; font-size: 15px; }
+.v-tabelle summary { cursor: pointer; color: var(--nacht); font-weight: 500; }
+.v-tabelle table { width: 100%; border-collapse: collapse; margin-top: 10px; font-variant-numeric: tabular-nums; }
+.v-tabelle th, .v-tabelle td { text-align: right; padding: 7px 10px; border-bottom: 1px solid var(--linie); }
+.v-tabelle th:first-child, .v-tabelle td:first-child { text-align: left; }
+.v-tabelle th { font-weight: 600; color: var(--grau); font-size: 14px; }
+@media (max-width: 700px) {
+  .v-kennzahlen { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .v-kennzahlen dd { font-size: 32px; }
+}
+.v-diagramm__spitze { font-size: 13px; color: var(--grau); margin-bottom: 8px; }

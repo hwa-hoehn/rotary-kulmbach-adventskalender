@@ -1,6 +1,8 @@
 <?php
 // Schnittstelle für Gewinnzahlen und Verwaltung.
 //   GET  api.php?aktion=zahlen     öffentlich: alle eingetragenen Gewinnzahlen
+//   POST api.php?aktion=zaehlen    öffentlich: {ereignis: aufruf|suche|treffer}, ohne Cookies
+//   GET  api.php?aktion=statistik  nur angemeldet: Aufrufe der letzten Tage
 //   GET  api.php?aktion=status     angemeldet? plus Schlüssel für schreibende Anfragen
 //   POST api.php?aktion=anmelden   {benutzer, passwort}
 //   POST api.php?aktion=abmelden   {schluessel}
@@ -10,6 +12,18 @@ declare(strict_types=1);
 require __DIR__ . '/privat/kern.php';
 
 $aktion = $_GET['aktion'] ?? '';
+
+if ($aktion === 'zaehlen') {
+    // öffentlich, ohne Sitzung; ungültige Ereignisse werden still ignoriert
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $e = json_decode((string) file_get_contents('php://input'), true)['ereignis'] ?? '';
+        if (in_array($e, ['aufruf', 'suche', 'treffer'], true)) {
+            zaehlen($e);
+        }
+    }
+    http_response_code(204);
+    exit;
+}
 
 if ($aktion === 'zahlen') {
     antwort(['zahlen' => json_lesen(ZAHLEN_DATEI) ?: new stdClass()]);
@@ -96,6 +110,13 @@ switch ($aktion) {
         });
         protokoll(sprintf('%s: %02d.12.%d mit %d Losnummern gespeichert', $wer, $tag, $jahr, count($sauber)));
         antwort(['gespeichert' => true, 'zahlen' => $alle]);
+
+    case 'statistik':
+        if (angemeldet() === null) {
+            fehler('Bitte anmelden.', 401);
+        }
+        $tage = json_lesen(STATISTIK_DATEI)['tage'] ?? [];
+        antwort(['tage' => $tage ?: new stdClass(), 'heute' => date('Y-m-d')]);
 
     default:
         fehler('Unbekannte Aktion.', 404);

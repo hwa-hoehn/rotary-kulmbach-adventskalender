@@ -10,6 +10,7 @@ const ZAHLEN_DATEI = DATEN_ORDNER . '/gewinnzahlen.json';
 const SPERR_DATEI = DATEN_ORDNER . '/fehlversuche.json';
 const PROTOKOLL_DATEI = DATEN_ORDNER . '/protokoll.log';
 const BENUTZER_DATEI = __DIR__ . '/benutzer.php';
+const STATISTIK_DATEI = DATEN_ORDNER . '/statistik.json';
 
 const MAX_FEHLVERSUCHE = 5;          // danach Sperre
 const SPERRZEIT = 15 * 60;           // Sekunden
@@ -183,6 +184,40 @@ function fehlversuch_merken(bool $erfolg): void
         } else {
             $d[$ip][] = $jetzt;
         }
+        return $d;
+    });
+}
+
+// Besucherzählung ohne Cookies und ohne gespeicherte IP-Adresse:
+// eindeutige Besucher nur über einen täglich wechselnden Zufallswert, der am Folgetag verworfen wird
+function zaehlen(string $ereignis): void
+{
+    $ua = $_SERVER['HTTP_USER_AGENT'] ?? '';
+    if ($ua === '' || preg_match('/bot|crawl|spider|slurp|preview|monitor|curl|wget|python|headless/i', $ua)) {
+        return;
+    }
+    $heute = date('Y-m-d');
+    $ip = $_SERVER['REMOTE_ADDR'] ?? '';
+    json_aendern(STATISTIK_DATEI, function (array $d) use ($ereignis, $heute, $ua, $ip) {
+        if (($d['heute']['datum'] ?? '') !== $heute) {
+            $d['heute'] = ['datum' => $heute, 'salz' => bin2hex(random_bytes(16)), 'kennungen' => []];
+        }
+        $tag = $d['tage'][$heute] ?? ['aufrufe' => 0, 'besucher' => 0, 'suchen' => 0, 'treffer' => 0];
+        if ($ereignis === 'aufruf') {
+            $tag['aufrufe']++;
+            $kennung = substr(hash('sha256', $d['heute']['salz'] . '|' . $ip . '|' . $ua), 0, 16);
+            if (!in_array($kennung, $d['heute']['kennungen'], true)) {
+                $d['heute']['kennungen'][] = $kennung;
+                $tag['besucher']++;
+            }
+        } elseif ($ereignis === 'suche') {
+            $tag['suchen']++;
+        } elseif ($ereignis === 'treffer') {
+            $tag['treffer']++;
+        }
+        $d['tage'][$heute] = $tag;
+        // nur gut ein Jahr aufheben
+        $d['tage'] = array_slice($d['tage'] ?? [], -400, null, true);
         return $d;
     });
 }
