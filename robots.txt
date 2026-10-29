@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /verwaltung.html
+Disallow: /api.php
+
+Sitemap: https://www.rotaryclub-kulmbach.de/sitemap.xml

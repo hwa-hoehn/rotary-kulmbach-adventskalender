@@ -4,6 +4,9 @@
 declare(strict_types=1);
 
 date_default_timezone_set('Europe/Berlin');
+// PHP-Fehler nie im Browser zeigen (könnten Pfade verraten), nur ins Server-Protokoll
+ini_set('display_errors', '0');
+ini_set('log_errors', '1');
 
 const DATEN_ORDNER = __DIR__ . '/daten';
 const ZAHLEN_DATEI = DATEN_ORDNER . '/gewinnzahlen.json';
@@ -16,6 +19,7 @@ const MAX_FEHLVERSUCHE = 5;          // danach Sperre
 const SPERRZEIT = 15 * 60;           // Sekunden
 const SITZUNG_LEERLAUF = 2 * 60 * 60; // automatisch abmelden nach 2 Stunden ohne Aktion
 const MAX_LOSE_PRO_TAG = 60;
+const MAX_KENNUNGEN_PRO_TAG = 20000; // Obergrenze gegen künstlich aufgeblähte Statistik
 
 function antwort(array $daten, int $status = 200): never
 {
@@ -206,7 +210,7 @@ function zaehlen(string $ereignis): void
         if ($ereignis === 'aufruf') {
             $tag['aufrufe']++;
             $kennung = substr(hash('sha256', $d['heute']['salz'] . '|' . $ip . '|' . $ua), 0, 16);
-            if (!in_array($kennung, $d['heute']['kennungen'], true)) {
+            if (count($d['heute']['kennungen']) < MAX_KENNUNGEN_PRO_TAG && !in_array($kennung, $d['heute']['kennungen'], true)) {
                 $d['heute']['kennungen'][] = $kennung;
                 $tag['besucher']++;
             }

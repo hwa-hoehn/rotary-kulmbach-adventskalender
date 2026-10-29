@@ -53,7 +53,7 @@
 
   function zeichne(jahr) {
     gewaehlt = jahr;
-    reiter.forEach(function (r) { r.setAttribute('aria-selected', String(r.dataset.jahr === jahr)); });
+    reiter.forEach(function (r) { r.setAttribute('aria-pressed', String(r.dataset.jahr === jahr)); });
 
     var jahrDaten = daten[jahr] || {};
     var kurz = jahr.slice(2);
@@ -217,7 +217,7 @@
     treffer = nr;
     if (window.rkZaehlen) window.rkZaehlen('treffer');
     ergebnis.innerHTML = '<strong>Gewonnen!</strong> Die Losnummer ' + nr + ' ist unter den Gewinnzahlen vom ' +
-      zweistellig(tag) + '.12.' + aktuellesJahr.slice(2) + '. Wo Sie Ihren Preis abholen können, erfahren Sie unter der Hotline <a href="tel:+49922195730">09221 / 95730</a>.';
+      zweistellig(tag) + '.12.' + aktuellesJahr.slice(2) + '. Wo Sie Ihren Preis abholen können, erfahren Sie unter der Hotline <a href="tel:+49922195730">09221\u00a0/\u00a095730</a>.';
     zeichne(aktuellesJahr);
     var tuer = liste.querySelector('.tuer[data-tag="' + tag + '"]');
     if (!tuer) return;

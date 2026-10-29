@@ -47,6 +47,8 @@ Vorher klären: Werden E-Mail-Adressen auf der Domain genutzt? (MX zeigt auf ION
 
 ## Im Betrieb
 
+- Nach Änderungen an CSS oder JavaScript die Versionsnummer `?v=JJJJMMTTNN` in `src/*.html` erhöhen, `python3 build.py` und neu hochladen. Sonst sehen Besucher bis zu ein Jahr den alten Stand.
+
 - Täglich: `…/verwaltung.html` öffnen, anmelden, Tag wählen, Losnummern einfügen, veröffentlichen. Geht von jedem Rechner und Handy, ohne SFTP.
 - Wann eingetragen wurde, steht in `privat/daten/protokoll.log` (per SFTP abrufbar).
 - Nach 5 falschen Passwörtern ist die Anmeldung von diesem Anschluss aus 15 Minuten gesperrt.

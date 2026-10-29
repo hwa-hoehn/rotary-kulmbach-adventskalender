@@ -59,7 +59,7 @@ kopf = kopf.replace('<a class="marke" href="#start"', '<a class="marke" href="in
 kopf = re.sub(r'<a href="#', '<a href="index.html#', kopf)
 fuss = re.search(r'<footer class="fuss">.*?</footer>', start, re.S).group(0)
 vorlage = (hier / 'src' / 'rechtlich.html').read_text()
-for name, titel in (('impressum', 'Impressum'), ('datenschutz', 'Datenschutz')):
+for name, titel in (('impressum', 'Impressum'), ('datenschutz', 'Datenschutz'), ('404', 'Seite nicht gefunden')):
     inhalt = (hier / 'src' / 'rechtliches' / f'{name}.part').read_text()
     seite = (vorlage.replace('{{LOGO}}', logo).replace('{{KOPF}}', kopf).replace('{{FUSS}}', fuss)
              .replace('{{TITEL}}', titel).replace('{{INHALT}}', inhalt))

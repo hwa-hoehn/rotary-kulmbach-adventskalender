@@ -103,3 +103,7 @@
   .v-kennzahlen dd { font-size: 32px; }
 }
 .v-diagramm__spitze { font-size: 13px; color: var(--grau); margin-bottom: 8px; }
+.v-tabelle { overflow-x: auto; }
+@media (max-width: 420px) {
+  .v-tabelle th, .v-tabelle td { padding: 7px 5px; font-size: 14px; }
+}

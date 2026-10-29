@@ -7,13 +7,23 @@
 <meta name="description" content="Rotary Adventsverlosung hilft Kindern in Not! Der Rotaryclub Kulmbach unterstützt mit dem Erlös dieser Aktion Kinder- &amp; Jugendprojekte im Landkreis Kulmbach.">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#0B1730">
+<link rel="canonical" href="https://www.rotaryclub-kulmbach.de/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="de_DE">
+<meta property="og:title" content="Rotary Adventskalender 2026 · Rotary Club Kulmbach">
+<meta property="og:description" content="Rotary Adventsverlosung hilft Kindern in Not! Alle Gewinnzahlen, Verkaufsstellen und die Hotline für Gewinner.">
+<meta property="og:url" content="https://www.rotaryclub-kulmbach.de/">
+<meta property="og:image" content="https://www.rotaryclub-kulmbach.de/bilder/teilen.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <link rel="manifest" href="manifest.json">
 <link rel="preload" href="fonts/libre-caslon-display.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/albert-sans.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="style.css?v=2026102903">
+<link rel="stylesheet" href="style.css?v=2026102904">
 <script>document.documentElement.classList.add('js')</script>
 </head>
 <body>
@@ -36,7 +46,7 @@
       <a href="#erloese">Hilfsprojekte</a>
       <a href="#sponsoren">Sponsoren</a>
       <a href="#club">Der Club</a>
-      <a class="navigation__hotline" href="tel:+49922195730">Hotline 09221 / 95730</a>
+      <a class="navigation__hotline" href="tel:+49922195730">Hotline&nbsp;09221&nbsp;/&nbsp;95730</a>
     </nav>
   </div>
 </header>
@@ -59,7 +69,7 @@
         </div>
       </div>
       <figure class="buehne__kalender">
-        <img src="bilder/kalender-2026.webp" srcset="bilder/kalender-2026-900.webp 900w, bilder/kalender-2026.webp 1800w" sizes="(min-width: 1000px) 640px, 92vw" width="1800" height="1272" alt="Der Rotary Adventskalender 2026: die Kulmbacher Altstadt bei Nacht mit der Plassenburg, darauf die goldenen Türchen 1 bis 24" fetchpriority="high">
+        <img src="bilder/kalender-2026.webp" srcset="bilder/kalender-2026-900.webp 900w, bilder/kalender-2026-1200.webp 1200w, bilder/kalender-2026.webp 1800w" sizes="(min-width: 1000px) 640px, 92vw" width="1800" height="1272" alt="Der Rotary Adventskalender 2026: die Kulmbacher Altstadt bei Nacht mit der Plassenburg, darauf die goldenen Türchen 1 bis 24" fetchpriority="high">
       </figure>
     </div>
     <p class="buehne__fuss">Kalenderlos 5 Euro / Stück <span aria-hidden="true">·</span> Aktualisierung der Losnummern täglich zwischen 07.30 und 10.00 Uhr</p>
@@ -75,20 +85,20 @@
         <form class="suche" id="suche" role="search" novalidate>
           <label class="suche__label" for="losnummer">Ihre Losnummer</label>
           <div class="suche__feld">
-            <input id="losnummer" name="losnummer" inputmode="numeric" autocomplete="off" pattern="[0-9]*" maxlength="8" placeholder="z. B. 253162">
+            <input id="losnummer" name="losnummer" type="text" inputmode="numeric" autocomplete="off" pattern="[0-9]*" maxlength="8" placeholder="Nummer von der Kalender-Vorderseite">
             <button class="knopf knopf--nacht" type="submit">Prüfen</button>
           </div>
           <p class="suche__ergebnis" id="suche-ergebnis" role="status" aria-live="polite"></p>
         </form>
       </div>
 
-      <div class="jahre" role="tablist" aria-label="Jahr wählen">
-        <button class="jahre__knopf" role="tab" type="button" data-jahr="2026" aria-selected="false">2026</button>
-        <button class="jahre__knopf" role="tab" type="button" data-jahr="2025" aria-selected="false">Vorjahr 2025</button>
+      <div class="jahre" role="group" aria-label="Jahr wählen">
+        <button class="jahre__knopf" type="button" data-jahr="2026" aria-pressed="false">2026</button>
+        <button class="jahre__knopf" type="button" data-jahr="2025" aria-pressed="false">Vorjahr 2025</button>
       </div>
       <p class="gewinn__status" id="gewinn-status"></p>
 
-      <ol class="tuerchen" id="tuerchen" aria-label="Gewinnzahlen nach Tag"></ol>
+      <ol class="tuerchen" id="tuerchen" aria-labelledby="gewinn-titel"></ol>
 
       <p class="gewinn__hinweis">Alle Zahlen sind ohne Gewähr!</p>
     </div>
@@ -102,7 +112,7 @@
         <p class="hotline__achtung">Achtung! Der Kalender mit der Losnummer muss zum Abholen des Preises mitgebracht werden.</p>
       </div>
       <div class="hotline__nummer">
-        <a href="tel:+49922195730">09221 / 95730</a>
+        <a href="tel:+49922195730">09221&nbsp;/&nbsp;95730</a>
         <dl class="zeiten">
           <div><dt>Mo. – Do.</dt><dd>9.00 – 16.00 Uhr</dd></div>
           <div><dt>Fr.</dt><dd>9.00 – 12.00 Uhr</dd></div>
@@ -252,7 +262,7 @@
     </div>
     <div class="fuss__spalte">
       <h2 class="fuss__titel">Hotline für Gewinner</h2>
-      <p><a href="tel:+49922195730">09221 / 95730</a></p>
+      <p><a href="tel:+49922195730">09221&nbsp;/&nbsp;95730</a></p>
       <p>Mo. – Do. 9.00 – 16.00 Uhr<br>Fr. 9.00 – 12.00 Uhr</p>
     </div>
     <div class="fuss__spalte">
@@ -271,8 +281,8 @@
   </div>
 </footer>
 
-<script src="app-kopf.js?v=2026102903"></script>
-<script src="gewinnzahlen.js?v=2026102903"></script>
-<script src="app.js?v=2026102903"></script>
+<script src="app-kopf.js?v=2026102904"></script>
+<script src="gewinnzahlen.js?v=2026102904"></script>
+<script src="app.js?v=2026102904"></script>
 </body>
 </html>

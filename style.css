@@ -201,8 +201,8 @@ ul, ol { padding: 0; list-style: none; }
   content: ""; position: absolute; left: 14px; right: 14px; bottom: -1px; height: 2px; background: var(--nacht);
   transform: scaleX(0); transition: transform .3s var(--kurve);
 }
-.jahre__knopf[aria-selected="true"] { color: var(--nacht); }
-.jahre__knopf[aria-selected="true"]::after { transform: scaleX(1); }
+.jahre__knopf[aria-pressed="true"] { color: var(--nacht); }
+.jahre__knopf[aria-pressed="true"]::after { transform: scaleX(1); }
 .gewinn__status { margin: 22px 0 28px; color: var(--grau); max-width: 70ch; }
 
 .tuerchen {

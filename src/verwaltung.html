@@ -5,13 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Gewinnzahlen eintragen · Rotary Adventskalender</title>
 <meta name="robots" content="noindex">
+<meta name="description" content="Verwaltung der Gewinnzahlen des Rotary Adventskalenders Kulmbach.">
 <meta name="theme-color" content="#0B1730">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <link rel="manifest" href="manifest.json">
-<link rel="stylesheet" href="style.css?v=2026102903">
-<link rel="stylesheet" href="verwaltung.css?v=2026102903">
+<link rel="stylesheet" href="style.css?v=2026102904">
+<link rel="stylesheet" href="verwaltung.css?v=2026102904">
 </head>
 <body class="verwaltung">
 {{LOGO}}
@@ -19,7 +20,7 @@
 
 <header class="kopf">
   <div class="kopf__innen">
-    <a class="marke" href="index.html" aria-label="Zur Startseite">
+    <a class="marke" href="index.html" aria-label="Rotary Club Kulmbach, zur Startseite">
       <svg class="marke__logo" viewBox="0 0 392.25867 147.82533" aria-hidden="true"><use href="#rotary-logo"/></svg>
       <span class="marke__club">Club Kulmbach</span>
     </a>
@@ -34,7 +35,7 @@
     <form class="v-formular v-formular--schmal" id="anmelde-formular" novalidate>
       <div class="v-zeile">
         <label for="benutzer">Benutzername</label>
-        <input id="benutzer" name="benutzer" autocomplete="username" autocapitalize="none" spellcheck="false" required>
+        <input id="benutzer" name="benutzer" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" required>
       </div>
       <div class="v-zeile">
         <label for="passwort">Passwort</label>
@@ -67,7 +68,7 @@
         <textarea id="lose" rows="7" placeholder="Eine Nummer pro Zeile, oder mit Komma bzw. Leerzeichen getrennt"></textarea>
         <p class="v-hilfe" id="hilfe">Noch keine Nummern erkannt.</p>
       </div>
-      <ul class="v-vorschau" id="vorschau" aria-label="Erkannte Losnummern"></ul>
+      <ul class="v-vorschau" id="vorschau"></ul>
       <div class="v-aktionen">
         <button class="knopf knopf--gold" type="submit">Veröffentlichen</button>
         <button class="knopf knopf--linie-dunkel" type="button" id="loeschen">Tag leeren</button>
@@ -108,7 +109,7 @@
   </section>
 </main>
 
-<script src="gewinnzahlen.js?v=2026102903"></script>
-<script src="verwaltung.js?v=2026102903"></script>
+<script src="gewinnzahlen.js?v=2026102904"></script>
+<script src="verwaltung.js?v=2026102904"></script>
 </body>
 </html>

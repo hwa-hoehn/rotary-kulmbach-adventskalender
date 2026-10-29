@@ -18,7 +18,8 @@ if not benutzer.is_file():
     sys.exit('privat/benutzer.php fehlt. Erst "php werkzeuge/benutzer-anlegen.php" ausführen.')
 
 dateien = [
-    'index.html', 'verwaltung.html', 'impressum.html', 'datenschutz.html',
+    'index.html', 'verwaltung.html', 'impressum.html', 'datenschutz.html', '404.html',
+    'robots.txt', 'sitemap.xml',
     'api.php', '.htaccess', 'manifest.json', 'favicon.ico',
     'style.css', 'verwaltung.css', 'app.js', 'app-kopf.js', 'verwaltung.js', 'gewinnzahlen.js',
     'privat/kern.php', 'privat/.htaccess', 'privat/benutzer.php',
@@ -32,8 +33,11 @@ def endfassung(name, text):
     if not name.endswith('.html'):
         return text
     text = re.sub(r'<p class="entwurf">Gestaltungsvorschlag[^<]*</p>\n?', '', text)
-    if name != 'verwaltung.html':
+    if name not in ('verwaltung.html', '404.html'):
         text = text.replace('<meta name="robots" content="noindex">', '<meta name="robots" content="index, follow">')
+    if name == '404.html':
+        # wird unter beliebigen Adressen ausgeliefert, daher feste Pfade ab der Domain
+        text = text.replace('<meta charset="utf-8">', '<meta charset="utf-8">\n<base href="/">', 1)
     return text
 
 
