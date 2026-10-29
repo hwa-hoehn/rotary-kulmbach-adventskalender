@@ -45,9 +45,11 @@ ziel.parent.mkdir(exist_ok=True)
 with zipfile.ZipFile(ziel, 'w', zipfile.ZIP_DEFLATED) as z:
     for name in dateien:
         pfad = hier / name
-        if pfad.suffix in ('.html',):
-            z.writestr(name, endfassung(name, pfad.read_text()))
-        else:
-            z.write(pfad, name)
+        # Rechte immer 644: sonst darf der Webserver von IONOS die Dateien nicht lesen (403)
+        info = zipfile.ZipInfo(name, date_time=(date.today().year, date.today().month, date.today().day, 12, 0, 0))
+        info.external_attr = 0o100644 << 16
+        info.compress_type = zipfile.ZIP_DEFLATED
+        inhalt = endfassung(name, pfad.read_text()).encode() if pfad.suffix == '.html' else pfad.read_bytes()
+        z.writestr(info, inhalt)
 
 print(f'{len(dateien)} Dateien → {ziel}')

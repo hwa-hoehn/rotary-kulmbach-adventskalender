@@ -1,15 +1,17 @@
 ErrorDocument 404 /404.html
 
-# Immer HTTPS
-<IfModule mod_rewrite.c>
-  RewriteEngine On
-  RewriteCond %{HTTPS} !=on
-  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-</IfModule>
+# Immer HTTPS auf der echten Domain. Bewusst ohne RewriteRule: IONOS erlaubt hier keine Symlinks,
+# und dann blockiert Apache jede RewriteRule mit 403. Die IONOS-Testadresse bleibt ohne Umleitung erreichbar.
+<If "%{HTTP_HOST} =~ /rotaryclub-kulmbach\.de$/i && %{HTTPS} != 'on' && %{HTTP:X-Forwarded-Proto} != 'https'">
+  Redirect permanent "https://%{HTTP_HOST}%{REQUEST_URI}"
+</If>
 
 # Interne Dateien nicht ausliefern (privat/ und werkzeuge/ haben zusätzlich eine eigene Sperre)
 RedirectMatch 404 /(privat|werkzeuge|src)(/|$)
 RedirectMatch 404 /\.git
+<Files ".ht*">
+  Require all denied
+</Files>
 <FilesMatch "\.(py|part|md|log)$">
   Require all denied
 </FilesMatch>
