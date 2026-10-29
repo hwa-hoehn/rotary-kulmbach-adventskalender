@@ -140,6 +140,7 @@
       tipp.hidden = false;
     };
     flaeche.onmouseleave = function () { tipp.hidden = true; };
+    window.onresize = function () { tipp.hidden = true; };
   }
 
   function ladeStatistik() {
