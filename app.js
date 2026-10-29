@@ -75,17 +75,46 @@
     fluegel();
   }
 
+  // Lage der 24 Türchen auf dem Kalendermotiv 2026 (x, y, Kantenlänge in Pixeln bei 1268 × 896),
+  // ermittelt aus den Stanzlinien der Druckvorlage
+  var MOTIV = { breite: 1268, hoehe: 896, bild: 'bilder/kalender-2026-900.webp' };
+  var TUEREN = {
+    1: [1100, 730, 135], 2: [898, 137, 135], 3: [472, 450, 135], 4: [64, 694, 135],
+    5: [1098, 410, 135], 6: [192, 214, 135], 7: [660, 700, 135], 8: [692, 244, 135],
+    9: [1104, 67, 135], 10: [426, 676, 135], 11: [832, 530, 135], 12: [22, 294, 135],
+    13: [1084, 247, 135], 14: [272, 50, 135], 15: [250, 732, 135], 16: [665, 446, 135],
+    17: [877, 330, 135], 18: [1014, 570, 135], 19: [477, 76, 135], 20: [26, 502, 135],
+    21: [411, 250, 135], 22: [856, 732, 135], 23: [721, 59, 135], 24: [214, 422, 204]
+  };
+
+  // Türflügel zeigt den Ausschnitt des echten Kalendertürchens
+  function motivAusschnitt(fluegelEl, tag) {
+    var t = TUEREN[tag];
+    if (!t) return;
+    var b = fluegelEl.offsetWidth, h = fluegelEl.offsetHeight;
+    // leicht nach innen versetzt, damit die Stanzlinien nicht mit ins Bild kommen
+    t = [t[0] + t[2] * 0.06, t[1] + t[2] * 0.06, t[2] * 0.88];
+    var massstab = Math.max(b, h) / t[2];
+    fluegelEl.style.backgroundImage = 'url(' + MOTIV.bild + ')';
+    fluegelEl.style.backgroundSize = Math.round(MOTIV.breite * massstab) + 'px auto';
+    fluegelEl.style.backgroundPosition =
+      Math.round(-t[0] * massstab - (t[2] * massstab - b) / 2) + 'px ' +
+      Math.round(-t[1] * massstab - (t[2] * massstab - h) / 2) + 'px';
+  }
+
   // Ein Türflügel je geöffnetem Tag, der beim ersten Sichtkontakt aufschwingt
   function fluegel() {
     if (fluegelBeobachter) fluegelBeobachter.disconnect();
     if (bewegungAus || !('IntersectionObserver' in window)) return;
     var tueren = liste.querySelectorAll('.tuer:not(.tuer--zu)');
+    var jahrIstMotiv = gewaehlt === aktuellesJahr;
     tueren.forEach(function (t) {
       var f = document.createElement('span');
       f.className = 'tuer__fluegel';
       f.setAttribute('aria-hidden', 'true');
-      f.textContent = t.dataset.tag;
       t.appendChild(f);
+      if (jahrIstMotiv) motivAusschnitt(f, Number(t.dataset.tag));
+      else f.textContent = t.dataset.tag;
     });
     fluegelBeobachter = new IntersectionObserver(function (eintraege) {
       var verzoegerung = 0;
@@ -93,6 +122,8 @@
         if (!e.isIntersecting) return;
         var t = e.target;
         fluegelBeobachter.unobserve(t);
+        var fl = t.querySelector('.tuer__fluegel');
+        if (fl && jahrIstMotiv) motivAusschnitt(fl, Number(t.dataset.tag));
         setTimeout(function () { t.classList.add('ist-offen'); }, verzoegerung);
         verzoegerung += 70;
       });

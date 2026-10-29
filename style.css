@@ -377,7 +377,12 @@ ul, ol { padding: 0; list-style: none; }
 .sponsoren__kopf p { margin-top: 14px; color: var(--grau); }
 .sponsoren__liste { columns: 4 220px; column-gap: 36px; }
 .sponsoren__liste li { break-inside: avoid; padding: 8px 0; border-bottom: 1px solid var(--linie); font-size: 15px; }
-.sponsoren__liste a { text-decoration-color: var(--gold); text-underline-offset: 3px; }
+.sponsoren__liste a { text-decoration: none; position: relative; }
+.sponsoren__liste a::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 1px; background: var(--gold);
+  transform: scaleX(0); transform-origin: left; transition: transform .3s var(--kurve);
+}
+.sponsoren__liste a:hover::after { transform: scaleX(1); }
 
 /* Club */
 .club { background: var(--weiss); padding: clamp(80px, 10vw, 136px) 0; }
