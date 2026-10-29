@@ -5,17 +5,32 @@
   var SPEICHER = 'rk-gewinnzahlen';
   var bewegungAus = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Gewinnzahlen: feste Daten plus Einträge aus der Verwaltung (Demo: im Browser gespeichert)
-  function ladeDaten() {
-    var daten = JSON.parse(JSON.stringify(window.GEWINNZAHLEN || {}));
-    try {
-      var eigen = JSON.parse(localStorage.getItem(SPEICHER) || '{}');
-      Object.keys(eigen).forEach(function (jahr) {
-        daten[jahr] = daten[jahr] || {};
-        Object.keys(eigen[jahr]).forEach(function (tag) { daten[jahr][tag] = eigen[jahr][tag]; });
-      });
-    } catch (e) { /* ohne Speicher gelten die festen Daten */ }
+  // Gewinnzahlen: feste Daten (Vorjahr) plus eingetragene Zahlen.
+  // Mit Server (api.php) kommen die Einträge von dort, sonst aus der Demo-Verwaltung im Browser.
+  function zusammenfuehren(basis, eigen) {
+    var daten = JSON.parse(JSON.stringify(basis || {}));
+    Object.keys(eigen || {}).forEach(function (jahr) {
+      daten[jahr] = daten[jahr] || {};
+      Object.keys(eigen[jahr]).forEach(function (tag) { daten[jahr][tag] = eigen[jahr][tag]; });
+    });
     return daten;
+  }
+
+  function demoDaten() {
+    try { return JSON.parse(localStorage.getItem(SPEICHER) || '{}'); } catch (e) { return {}; }
+  }
+
+  function ladeDaten(fertig) {
+    var abbruch = window.AbortController ? new AbortController() : null;
+    var zeit = setTimeout(function () { if (abbruch) abbruch.abort(); }, 5000);
+    fetch('api.php?aktion=zahlen', { cache: 'no-store', signal: abbruch && abbruch.signal })
+      .then(function (r) {
+        if (!r.ok || (r.headers.get('content-type') || '').indexOf('application/json') !== 0) throw new Error('kein Server');
+        return r.json();
+      })
+      .then(function (j) { fertig(zusammenfuehren(window.GEWINNZAHLEN, j.zahlen || {})); })
+      .catch(function () { fertig(zusammenfuehren(window.GEWINNZAHLEN, demoDaten())); })
+      .then(function () { clearTimeout(zeit); });
   }
 
   function anzahl(jahrDaten) {
@@ -28,7 +43,7 @@
   var liste = document.getElementById('tuerchen');
   var status = document.getElementById('gewinn-status');
   var reiter = Array.prototype.slice.call(document.querySelectorAll('.jahre__knopf'));
-  var daten = ladeDaten();
+  var daten = zusammenfuehren(window.GEWINNZAHLEN, {});
   var heute = new Date();
   var aktuellesJahr = '2026';
   // Immer mit dem laufenden Jahr starten; Gewinne zählen nur für dieses Jahr
@@ -254,6 +269,10 @@
   }
 
   zeichne(gewaehlt);
+  ladeDaten(function (neu) {
+    daten = neu;
+    zeichne(gewaehlt);
+  });
 
   // Abschnitte sanft einblenden
   if (!bewegungAus && 'IntersectionObserver' in window) {

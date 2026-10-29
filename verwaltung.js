@@ -1,34 +1,54 @@
-// Verwaltung (Demo): speichert Gewinnzahlen im Browser. Später übernimmt das ein Redaktionssystem.
+// Verwaltung der Gewinnzahlen.
+// Mit Server (api.php auf dem Webspace): Anmeldung nötig, Zahlen werden für alle gespeichert.
+// Ohne Server (z. B. Vorschau auf GitHub): Demo, Einträge bleiben nur in diesem Browser.
 (function () {
   'use strict';
 
   var SPEICHER = 'rk-gewinnzahlen';
-  var jahrFeld = document.getElementById('jahr');
-  var tagFeld = document.getElementById('tag');
-  var loseFeld = document.getElementById('lose');
-  var hilfe = document.getElementById('hilfe');
-  var vorschau = document.getElementById('vorschau');
-  var meldung = document.getElementById('meldung');
-  var tageListe = document.getElementById('tage');
+  var $ = function (id) { return document.getElementById(id); };
+  var jahrFeld = $('jahr'), tagFeld = $('tag'), loseFeld = $('lose');
+  var hilfe = $('hilfe'), vorschau = $('vorschau'), meldung = $('meldung'), tageListe = $('tage');
 
-  function eigene() {
-    try { return JSON.parse(localStorage.getItem(SPEICHER) || '{}'); } catch (e) { return {}; }
+  var modus = null;      // 'server' oder 'demo'
+  var schluessel = '';   // Schutz für schreibende Anfragen, kommt vom Server
+  var eingetragen = {};  // Zahlen vom Server bzw. aus dem Browser
+
+  function zweistellig(n) { return (n < 10 ? '0' : '') + n; }
+  function zerlege(text) {
+    return (text.match(/\d+/g) || []).filter(function (n, i, a) { return a.indexOf(n) === i; });
   }
-  function speichere(d) {
-    try { localStorage.setItem(SPEICHER, JSON.stringify(d)); return true; } catch (e) { return false; }
+
+  function api(aktion, daten) {
+    var optionen = { cache: 'no-store', credentials: 'same-origin' };
+    if (daten) {
+      optionen.method = 'POST';
+      optionen.headers = { 'Content-Type': 'application/json' };
+      optionen.body = JSON.stringify(daten);
+    }
+    return fetch('api.php?aktion=' + aktion, optionen).then(function (r) {
+      if ((r.headers.get('content-type') || '').indexOf('application/json') !== 0) throw new Error('kein Server');
+      return r.json().then(function (j) {
+        if (!r.ok) { var f = new Error(j.fehler || 'Fehler'); f.status = r.status; throw f; }
+        return j;
+      });
+    });
   }
+
   function alle(jahr) {
     var basis = (window.GEWINNZAHLEN || {})[jahr] || {};
-    var e = eigene()[jahr] || {};
+    var e = eingetragen[jahr] || {};
     var d = {};
     Object.keys(basis).forEach(function (t) { d[t] = basis[t]; });
     Object.keys(e).forEach(function (t) { d[t] = e[t]; });
     return d;
   }
-  function zerlege(text) {
-    return (text.match(/\d+/g) || []).filter(function (n, i, a) { return a.indexOf(n) === i; });
+
+  // Ansicht
+
+  function zeige(bereich) {
+    $('anmelden').hidden = bereich !== 'anmelden';
+    $('bereich').hidden = bereich !== 'bereich';
   }
-  function zweistellig(n) { return (n < 10 ? '0' : '') + n; }
 
   for (var t = 1; t <= 24; t++) {
     var o = document.createElement('option');
@@ -51,8 +71,7 @@
   }
 
   function ladeTag() {
-    var d = alle(jahrFeld.value);
-    loseFeld.value = (d[tagFeld.value] || []).join('\n');
+    loseFeld.value = (alle(jahrFeld.value)[tagFeld.value] || []).join('\n');
     meldung.textContent = '';
     zeigeVorschau();
     zeichneUeberblick();
@@ -60,7 +79,7 @@
 
   function zeichneUeberblick() {
     var d = alle(jahrFeld.value);
-    document.getElementById('ueberblick-jahr').textContent = jahrFeld.value;
+    $('ueberblick-jahr').textContent = jahrFeld.value;
     var html = '';
     for (var t = 1; t <= 24; t++) {
       var n = (d[t] || []).length;
@@ -70,6 +89,67 @@
     }
     tageListe.innerHTML = html;
   }
+
+  // Start: Server vorhanden?
+
+  function starteDemo() {
+    modus = 'demo';
+    try { eingetragen = JSON.parse(localStorage.getItem(SPEICHER) || '{}'); } catch (e) { eingetragen = {}; }
+    $('modus-hinweis').textContent = 'Demo der Verwaltung · Einträge werden nur in diesem Browser gespeichert';
+    zeige('bereich');
+    ladeTag();
+  }
+
+  var eingabeBehalten = false; // nach abgelaufener Sitzung die getippten Nummern nicht überschreiben
+
+  function starteBereich(name) {
+    $('konto').hidden = false;
+    $('konto-name').textContent = name;
+    return api('zahlen').then(function (j) {
+      eingetragen = j.zahlen || {};
+      zeige('bereich');
+      if (eingabeBehalten) {
+        eingabeBehalten = false;
+        meldung.textContent = 'Wieder angemeldet. Bitte erneut auf Veröffentlichen tippen.';
+        zeichneUeberblick();
+      } else {
+        ladeTag();
+      }
+    });
+  }
+
+  api('status').then(function (s) {
+    modus = 'server';
+    schluessel = s.schluessel;
+    $('modus-hinweis').textContent = 'Verwaltung · Änderungen sind sofort für alle sichtbar';
+    if (s.angemeldet) return starteBereich(s.benutzer);
+    zeige('anmelden');
+    $('benutzer').focus();
+  }).catch(starteDemo);
+
+  // Anmelden und Abmelden
+
+  $('anmelde-formular').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var knopf = e.target.querySelector('button');
+    var hinweis = $('anmelde-meldung');
+    hinweis.textContent = '';
+    knopf.disabled = true;
+    api('anmelden', { benutzer: $('benutzer').value, passwort: $('passwort').value })
+      .then(function (s) {
+        schluessel = s.schluessel;
+        $('passwort').value = '';
+        return starteBereich(s.benutzer);
+      })
+      .catch(function (f) { hinweis.textContent = f.message || 'Anmeldung nicht möglich.'; })
+      .then(function () { knopf.disabled = false; });
+  });
+
+  $('abmelden').addEventListener('click', function () {
+    api('abmelden', { schluessel: schluessel }).catch(function () {}).then(function () { location.reload(); });
+  });
+
+  // Eintragen
 
   tageListe.addEventListener('click', function (e) {
     var b = e.target.closest('button');
@@ -82,23 +162,48 @@
   tagFeld.addEventListener('change', ladeTag);
   loseFeld.addEventListener('input', zeigeVorschau);
 
-  document.getElementById('formular').addEventListener('submit', function (e) {
-    e.preventDefault();
+  function speichere() {
     var nummern = zerlege(loseFeld.value);
-    var d = eigene();
-    d[jahrFeld.value] = d[jahrFeld.value] || {};
-    d[jahrFeld.value][tagFeld.value] = nummern;
-    meldung.textContent = speichere(d)
-      ? (nummern.length ? nummern.length + ' Losnummern für den ' + zweistellig(+tagFeld.value) + '.12.' + jahrFeld.value.slice(2) + ' veröffentlicht.' : 'Tag geleert.')
-      : 'Speichern nicht möglich (privates Fenster?).';
-    zeichneUeberblick();
-  });
+    var jahr = jahrFeld.value, tag = tagFeld.value;
+    var text = nummern.length
+      ? nummern.length + ' Losnummern für den ' + zweistellig(+tag) + '.12.' + jahr.slice(2) + ' veröffentlicht.'
+      : 'Tag geleert.';
 
-  document.getElementById('loeschen').addEventListener('click', function () {
-    loseFeld.value = '';
-    zeigeVorschau();
-    document.getElementById('formular').requestSubmit();
-  });
+    if (modus === 'demo') {
+      eingetragen[jahr] = eingetragen[jahr] || {};
+      eingetragen[jahr][tag] = nummern;
+      try { localStorage.setItem(SPEICHER, JSON.stringify(eingetragen)); meldung.textContent = text; }
+      catch (e) { meldung.textContent = 'Speichern nicht möglich (privates Fenster?).'; }
+      zeichneUeberblick();
+      return;
+    }
 
-  ladeTag();
+    meldung.textContent = 'Wird gespeichert …';
+    api('speichern', { schluessel: schluessel, jahr: +jahr, tag: +tag, lose: nummern })
+      .then(function (j) {
+        eingetragen = j.zahlen || {};
+        meldung.textContent = text;
+        zeichneUeberblick();
+      })
+      .catch(function (f) {
+        if (f.status === 401 || f.status === 403) {
+          eingabeBehalten = true;
+          $('anmelde-meldung').textContent = 'Sitzung abgelaufen. Bitte neu anmelden, die Eingabe bleibt erhalten.';
+          api('status').then(function (s) { schluessel = s.schluessel; }).catch(function () {});
+          zeige('anmelden');
+          $('benutzer').focus();
+        } else {
+          meldung.textContent = 'Nicht gespeichert: ' + (f.message || 'Verbindung prüfen.');
+        }
+      });
+  }
+
+  $('formular').addEventListener('submit', function (e) { e.preventDefault(); speichere(); });
+  $('loeschen').addEventListener('click', function () {
+    if (!loseFeld.value.trim() || confirm('Alle Losnummern für diesen Tag entfernen?')) {
+      loseFeld.value = '';
+      zeigeVorschau();
+      speichere();
+    }
+  });
 })();

@@ -47,3 +47,18 @@
   .v-tage { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .v-zurueck { padding: 0 14px; }
 }
+
+.v-formular--schmal { max-width: 440px; margin-top: 32px; }
+.v-zeile input {
+  width: 100%; font: 400 17px/1.5 var(--sans); color: var(--tinte);
+  border: 1px solid var(--linie); background: var(--papier); padding: 12px 14px; border-radius: 6px;
+}
+.v-zeile input:focus { outline: 2px solid var(--nacht); outline-offset: 0; border-color: transparent; }
+.v-meldung--fehler { color: #A3261B; }
+.v-kopf { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 32px; }
+.v-konto { font-size: 15px; color: var(--grau); }
+.v-konto strong { color: var(--tinte); font-weight: 600; }
+.v-abmelden {
+  margin-left: 10px; font: 500 15px/1 var(--sans); color: var(--nacht); background: none;
+  border: 1px solid var(--nacht); border-radius: 999px; padding: 8px 14px; cursor: pointer;
+}

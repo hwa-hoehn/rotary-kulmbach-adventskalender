@@ -10,12 +10,12 @@
 <link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <link rel="manifest" href="manifest.json">
-<link rel="stylesheet" href="style.css?v=2026102901">
-<link rel="stylesheet" href="verwaltung.css?v=2026102901">
+<link rel="stylesheet" href="style.css?v=2026102902">
+<link rel="stylesheet" href="verwaltung.css?v=2026102902">
 </head>
 <body class="verwaltung">
 {{LOGO}}
-<p class="entwurf">Demo der Verwaltung · Einträge werden nur in diesem Browser gespeichert</p>
+<p class="entwurf" id="modus-hinweis">Verwaltung wird geladen …</p>
 
 <header class="kopf">
   <div class="kopf__innen">
@@ -28,7 +28,28 @@
 </header>
 
 <main class="rahmen v-rahmen">
-  <h1 class="titel">Gewinnzahlen eintragen</h1>
+  <section class="v-anmelden" id="anmelden" hidden aria-labelledby="anmelden-titel">
+    <h1 id="anmelden-titel" class="titel">Anmelden</h1>
+    <p class="v-einleitung">Zugang für die Projektgruppe zum Eintragen der Gewinnzahlen.</p>
+    <form class="v-formular v-formular--schmal" id="anmelde-formular" novalidate>
+      <div class="v-zeile">
+        <label for="benutzer">Benutzername</label>
+        <input id="benutzer" name="benutzer" autocomplete="username" autocapitalize="none" spellcheck="false" required>
+      </div>
+      <div class="v-zeile">
+        <label for="passwort">Passwort</label>
+        <input id="passwort" name="passwort" type="password" autocomplete="current-password" required>
+      </div>
+      <button class="knopf knopf--gold" type="submit">Anmelden</button>
+      <p class="v-meldung v-meldung--fehler" id="anmelde-meldung" role="alert"></p>
+    </form>
+  </section>
+
+  <section id="bereich" hidden>
+  <div class="v-kopf">
+    <h1 class="titel">Gewinnzahlen eintragen</h1>
+    <p class="v-konto" id="konto" hidden>Angemeldet als <strong id="konto-name"></strong> <button class="v-abmelden" type="button" id="abmelden">Abmelden</button></p>
+  </div>
   <p class="v-einleitung">Tag wählen, Losnummern einfügen, veröffentlichen. Die Zahlen erscheinen sofort im passenden Türchen auf der Seite.</p>
 
   <div class="v-raster">
@@ -59,9 +80,10 @@
       <ol class="v-tage" id="tage"></ol>
     </section>
   </div>
+  </section>
 </main>
 
-<script src="gewinnzahlen.js?v=2026102901"></script>
-<script src="verwaltung.js?v=2026102901"></script>
+<script src="gewinnzahlen.js?v=2026102902"></script>
+<script src="verwaltung.js?v=2026102902"></script>
 </body>
 </html>

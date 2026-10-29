@@ -1,0 +1,19 @@
+# Immer HTTPS
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} !=on
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# Interne Dateien nicht ausliefern (privat/ und werkzeuge/ haben zusätzlich eine eigene Sperre)
+RedirectMatch 404 /(privat|werkzeuge|src)(/|$)
+RedirectMatch 404 /\.git
+<FilesMatch "\.(py|part|md|log)$">
+  Require all denied
+</FilesMatch>
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "same-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+</IfModule>
