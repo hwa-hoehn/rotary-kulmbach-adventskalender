@@ -108,7 +108,7 @@ ul, ol { padding: 0; list-style: none; }
 .navigation { display: flex; align-items: center; gap: clamp(14px, 1.8vw, 28px); }
 .navigation a {
   color: rgba(255,255,255,.82); text-decoration: none; font-size: 15px; font-weight: 500;
-  position: relative; padding: 6px 0;
+  position: relative; padding: 6px 0; white-space: nowrap;
 }
 .navigation a::after {
   content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--gold);
@@ -370,6 +370,23 @@ ul, ol { padding: 0; list-style: none; }
 .stellen__liste span { color: var(--grau); font-size: 15px; }
 .stellen__hinweis { margin-top: 28px; color: var(--grau); }
 
+/* Aktuelles: Pressemitteilung */
+.bericht { background: var(--weiss); padding: clamp(80px, 10vw, 136px) 0; }
+.bericht__titel { font: 400 clamp(34px, 11.2vw, 112px)/1 var(--serif); letter-spacing: -.015em; color: var(--nacht); }
+.bericht__titel span { display: block; font-size: .3em; line-height: 1.2; letter-spacing: 0; margin-bottom: .35em; }
+.bericht__unter { font-size: clamp(18px, 1.8vw, 22px); color: var(--grau); margin-top: 20px; }
+.bericht__foto { margin-top: clamp(32px, 4vw, 56px); }
+.bericht__foto img { display: block; width: 100%; height: auto; }
+.bericht__raster { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 3fr); gap: 40px clamp(32px, 4vw, 56px); margin-top: 28px; }
+.bericht__rand { font-size: 14px; line-height: 1.5; color: var(--grau); }
+.bericht__datum { margin-top: 14px; }
+.bericht__text { max-width: 66ch; }
+.bericht__text p { margin-bottom: 16px; }
+.bericht__text h3 { font: 400 clamp(26px, 2.6vw, 34px)/1.15 var(--serif); color: var(--nacht); margin: 36px 0 12px; }
+@media (max-width: 860px) {
+  .bericht__raster { grid-template-columns: minmax(0, 1fr); }
+}
+
 /* Erlöse */
 .erloese { background: var(--nacht); color: var(--weiss); padding: clamp(88px, 11vw, 150px) 0; }
 .erloese__zitat {
@@ -422,6 +439,8 @@ ul, ol { padding: 0; list-style: none; }
 .fuss__marke { display: grid; justify-items: start; align-content: start; color: var(--weiss); }
 .fuss__marke .marke__logo { width: 170px; }
 .fuss__marke .marke__club { font-size: 17px; }
+.fuss__netze { margin-top: 8px; }
+.fuss__netze a { display: inline-block; padding: 13px 0; margin-right: 18px; }
 .fuss__titel { font: 600 15px/1.4 var(--sans); color: var(--weiss); margin-bottom: 10px; }
 .fuss__spalte p + p { margin-top: 8px; }
 .fuss a { color: var(--weiss); text-underline-offset: 3px; text-decoration-color: rgba(247,168,27,.6); }
@@ -449,7 +468,7 @@ ul, ol { padding: 0; list-style: none; }
 @media (max-width: 1180px) {
   .tuerchen { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
-@media (max-width: 1080px) {
+@media (max-width: 1180px) {
   .menue-knopf {
     display: inline-flex; align-items: center; gap: 10px;
     background: none; border: 0; color: var(--weiss); font: 500 15px/1 var(--sans); cursor: pointer; padding: 10px 0;

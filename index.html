@@ -23,7 +23,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="preload" href="fonts/libre-caslon-display.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/albert-sans.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="style.css?v=2026102904">
+<link rel="stylesheet" href="style.css?v=2026110202">
 <script>document.documentElement.classList.add('js')</script>
 </head>
 <body>
@@ -43,6 +43,7 @@
       <a href="#gewinnzahlen">Gewinnzahlen</a>
       <a href="#verlosung">Verlosung</a>
       <a href="#lose">Lose kaufen</a>
+      <a href="#aktuelles">Aktuelles</a>
       <a href="#erloese">Hilfsprojekte</a>
       <a href="#sponsoren">Sponsoren</a>
       <a href="#club">Der Club</a>
@@ -85,7 +86,7 @@
         <form class="suche" id="suche" role="search" novalidate>
           <label class="suche__label" for="losnummer">Ihre Losnummer</label>
           <div class="suche__feld">
-            <input id="losnummer" name="losnummer" type="text" inputmode="numeric" autocomplete="off" pattern="[0-9]*" maxlength="8" placeholder="Nummer von der Kalender-Vorderseite">
+            <input id="losnummer" name="losnummer" type="text" inputmode="numeric" autocomplete="off" pattern="[0-9]*" maxlength="8" placeholder="Nummer">
             <button class="knopf knopf--nacht" type="submit">Prüfen</button>
           </div>
           <p class="suche__ergebnis" id="suche-ergebnis" role="status" aria-live="polite"></p>
@@ -145,17 +146,16 @@
           <p class="tag__datum"><span class="tag__nr">13</span><span class="tag__monat">November</span></p>
           <div>
             <h3 class="tag__titel">Freitag, 13.11.26</h3>
-            <p class="tag__zeit">14.00 – 18.00 Uhr</p>
-            <p>REWE Hollweg, Kaufland, Edeka Seidl</p>
+            <p class="tag__zeit">14.30 – 18.00 Uhr</p>
+            <p>REWE Hollweg, Kaufland, Edeka Seidl (am Goldenen Feld)</p>
           </div>
         </article>
         <article class="tag">
           <p class="tag__datum"><span class="tag__nr">14</span><span class="tag__monat">November</span></p>
           <div>
             <h3 class="tag__titel">Samstag, 14.11.26</h3>
-            <p class="tag__zeit">9.00 – 14.00 Uhr</p>
-            <p>REWE Hollweg, Kaufland</p>
-            <p>Edeka Seidl 7.30 – 14.00 Uhr</p>
+            <p class="tag__zeit">8.30 – 12.00 Uhr</p>
+            <p>REWE Hollweg, Kaufland, Edeka Seidl (am Goldenen Feld)</p>
             <p>Marktplatz 8.30 – 12.30 Uhr</p>
           </div>
         </article>
@@ -169,16 +169,40 @@
           <li>Maßmanufaktur Schneider</li>
           <li>Herrenmode Schneider</li>
           <li>Obere Apotheke</li>
-          <li>Motor Nützel – Goldenes Feld <span>(ehem. Autotechnik Hahn)</span></li>
+          <li>Motor-Nützel Toyota</li>
           <li>Stern Apotheke</li>
           <li>Stadtpark Apotheke</li>
           <li>Reisecenter Schaffranek</li>
           <li>Sparkasse Kulmbach Kronach <span>(Hauptstelle)</span></li>
           <li>Apotheke im Fritz</li>
-          <li>Blumen am Ratskeller</li>
+          <li>Blumen im Ratskeller</li>
           <li>Salon SchnippSchnapp</li>
         </ul>
-        <p class="stellen__hinweis">Bestellungen per Mail sind leider heuer nicht möglich! Bitte erwerben Sie die Kalender bei den genannten Vorverkaufsstellen.</p>
+        <p class="stellen__hinweis">Bestellungen ab 10 Stück, z.B. für Firmen oder im Freundeskreis, sind per Mail an <a href="mailto:rzietz@hotmail.com">rzietz@hotmail.com</a> möglich.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bericht" id="aktuelles" aria-labelledby="bericht-titel">
+    <div class="rahmen">
+      <h2 id="bericht-titel" class="bericht__titel"><span>Rotary Club Kulmbach:</span> 15 Jahre Adventskalenderlos</h2>
+      <p class="bericht__unter">Über 80 Sponsoren stiften attraktive Preise</p>
+      <figure class="bericht__foto">
+        <img src="bilder/bericht-rathaus.webp" srcset="bilder/bericht-rathaus-1000.webp 1000w, bilder/bericht-rathaus.webp 2000w" sizes="(min-width: 1240px) 1128px, 92vw" width="2000" height="1316" alt="Fünf Männer stehen lächelnd vor dem Kulmbacher Rathaus neben einer Rotary-Fahne, einer hält den Adventskalender 2026 in den Händen" loading="lazy" decoding="async">
+      </figure>
+      <div class="bericht__raster">
+        <div class="bericht__rand">
+          <p>Vorne von links der Fotograf des neuen Adventskalenders, Harald Streit, und der Präsident des Rotary Club Kulmbach, Klaus Buß. Dahinter von links die Rotary Mitglieder Steffen Cyris, Ronald Meisel und vom Rotary Hilfswerk Horst Hohenner.</p>
+          <p class="bericht__datum">Pressemitteilung vom 30.10.2026</p>
+        </div>
+        <div class="bericht__text">
+          <p>Kulmbach – Auch im 15. Jahr des beliebten Adventskalenderloses wird es wieder eine Auflage von 5.555 Stück geben, deren Erlös für finanzielle Unterstützung zahlreicher Kinder- und Jugendhilfeprojekte in Kulmbach und Umgebung ausgeschüttet wird. „Dank langjähriger und großzügiger Spenden unserer Sponsoren, denen wir für ihre Unterstützung ausdrücklich danken, konnte das Kalender-Projekt auch 2026 verwirklicht werden. Seit Beginn im Jahr 2011 konnten wir unsere Kalenderlose stets komplett verkaufen. Das wollen wir dieses Jahr auch wieder erreichen!“, sagt der Rotary Präsident Klaus Buß zum Verkaufsstart. Und dazu hat der Adventskalender dieses Jahr auch ein neues Motiv, welches uns von Harald Streit zur Verfügung gestellt wurde, wofür sich der Rotary Club herzlich bedankt. „Herr Streit möchte damit einen Beitrag zum erfolgreichen Verkauf unserer Kalender leisten, damit wir auch weiterhin Kinder und Jugendliche unterstützen können“, ergänzt Klaus Buß.</p>
+          <h3>Kinder- und Jugendprojekte als Hauptgewinner</h3>
+          <p>„Die beeindruckende Summe von weit über 330.000 Euro hat der Club aus dem Losverkauf bisher in Projekte gesteckt, die Kindern und Jugendlichen unserer Heimat helfen. Darauf können auch die Kulmbacher und Kulmbacherinnen stolz sein, die unsere Lose jedes Jahr erwerben“, sagt Klaus Buß. Das Akquirieren von Preisen und Sponsoren beginnt für das Organisationsteam um Stephan Gimpel-Henning immer schon im Sommer. „Ein Einsatz, der sich lohnt“, ergänzt der Vorstand des Rotary Hilfswerks, Horst Hohenner, mit Blick auf die Erfolge: Durch den Kalenderverkauf im vergangenen Jahr hat Rotary Kulmbach u.a. verschiedene Workshops der Sommerkunstwochen mit 2.000 Euro, neue Pauken am MGF mit 2.500 Euro und Suchtpräventionsseminare an Kulmbacher Schulen in Stadt &amp; Landkreis mit 4.000 Euro unterstützen können.</p>
+          <p>Der größte Zuwendungsempfänger war wie auch in den vergangenen Jahren das Mehrgenerationenhaus der Geschwister-Gummi-Stiftung mit einer Spendensumme von 5.000 Euro.</p>
+          <h3>Jährlich steigende Gewinnchancen</h3>
+          <p>Für 5 Euro hat man die Chance auf einen von 240 Preisen im Gesamtwert von über 20.000 Euro. Hinter jedem Türchen verstecken sich mehrere Gewinne, die am jeweiligen Tag vergeben werden. Von Theaterkarten, einem iPad sowie weiteren wertvollen Sachpreisen über Gutscheine der örtlichen Gastronomie und des Einzelhandels ist für jeden etwas dabei.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -338,6 +362,7 @@
     <div class="fuss__marke">
       <svg class="marke__logo" viewBox="0 0 392.25867 147.82533" aria-hidden="true"><use href="#rotary-logo"/></svg>
       <span class="marke__club">Club Kulmbach</span>
+      <p class="fuss__netze"><a href="https://www.facebook.com/rotarykulmbach" rel="noopener">Facebook</a><a href="https://www.instagram.com/rckulmbach/" rel="noopener">Instagram</a></p>
     </div>
     <div class="fuss__spalte">
       <h2 class="fuss__titel">Hotline für Gewinner</h2>
