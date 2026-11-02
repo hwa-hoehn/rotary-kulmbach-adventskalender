@@ -20,6 +20,11 @@ RedirectMatch 404 /\.git
   Header always set X-Content-Type-Options "nosniff"
   Header always set Referrer-Policy "same-origin"
   Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Strict-Transport-Security "max-age=31536000"
+  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=(), payment=()"
+  <Files "verwaltung.html">
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'"
+  </Files>
 </IfModule>
 
 # Kompression und Zwischenspeicher (CSS/JS haben ?v= in der Adresse und dürfen lange gespeichert werden)
