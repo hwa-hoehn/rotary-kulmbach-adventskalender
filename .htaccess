@@ -6,6 +6,17 @@ ErrorDocument 404 /404.html
   Redirect permanent "https://%{HTTP_HOST}%{REQUEST_URI}"
 </If>
 
+# Alte Adressen der früheren Baukasten-Seite (stehen noch bei Google) auf die passende Stelle umleiten
+RedirectMatch 301 ^/wo-kann-ich-ein-kalenderlos-kaufen/?$ /#lose
+RedirectMatch 301 ^/wo-bekomme-ich-meinen-preis/?$ /#hotline
+RedirectMatch 301 ^/so-funktioniert-die-verlosung/?$ /#verlosung
+RedirectMatch 301 ^/sponsoren/?$ /#sponsoren
+RedirectMatch 301 ^/(aktuelle-hilfsprojekte|wem-kommen-die-erl.*se-zu-gute)/?$ /#erloese
+RedirectMatch 301 ^/(rotary-club-kulmbach-stellt-sich-vor|die-projektverantwortlichen)/?$ /#club
+RedirectMatch 301 ^/(startseite|sitemap)/?$ /
+RedirectMatch 301 ^/impressum/?$ /impressum.html
+RedirectMatch 301 ^/datenschutz/?$ /datenschutz.html
+
 # Interne Dateien nicht ausliefern (privat/ und werkzeuge/ haben zusätzlich eine eigene Sperre)
 RedirectMatch 404 /(privat|werkzeuge|src)(/|$)
 RedirectMatch 404 /\.git
