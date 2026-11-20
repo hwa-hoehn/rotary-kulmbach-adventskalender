@@ -48,6 +48,14 @@
 <h1>Seite nicht gefunden</h1>
 <p>Diese Seite gibt es nicht. Die Gewinnzahlen, Verkaufsstellen und die Hotline finden Sie auf der Startseite.</p>
 <p><a href="/">Zur Startseite</a></p>
+<script>
+(function () {
+  // Alte Adressen, die IONOS wegen MultiViews nicht per .htaccess umleiten lässt
+  var ziele = { 'impressum': '/impressum.html', 'datenschutz': '/datenschutz.html', 'sitemap': '/' };
+  var pfad = location.pathname.toLowerCase().replace(/^\/|\/$/g, '').replace(/\.(html|xml)$/, '');
+  if (ziele[pfad]) location.replace(ziele[pfad]);
+})();
+</script>
 
     </div>
   </div>
